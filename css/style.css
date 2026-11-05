@@ -5,7 +5,6 @@
     --tinta:#382116;
     --tinta-suave:#60412f;
     --texto-suave:#8b7563;
-    --chocolate:#4a2819;
     --chocolate:#6d3c25;
     --caramelo:#b9783e;
     --mel:#d5a45f;
@@ -13,6 +12,18 @@
     --linha:#e7d8bf;
     --branco:#fffdf8;
     --fonte-serifa:Georgia,"Times New Roman",serif
+}
+
+.somente-leitor-tela {
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
 }
 
 * {
