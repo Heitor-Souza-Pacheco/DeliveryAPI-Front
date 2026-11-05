@@ -1715,3 +1715,60 @@ img {
 
 }
 
+
+
+/* Ajustes dos botoes depois da retirada dos simbolos decorativos. */
+.add-button {
+    width: auto;
+    min-width: 88px;
+    padding: 0 12px;
+    border-radius: 22px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.icon-button {
+    width: auto;
+    min-width: 62px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.step-icon {
+    width: auto;
+    min-width: 90px;
+    height: auto;
+    min-height: 36px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.scroll-cue {
+    width: auto;
+    height: auto;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.quantity-control button {
+    min-width: 42px;
+    width: auto;
+    padding: 0 8px;
+    border-radius: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.quote-rating {
+    margin: 12px 0;
+    color: var(--cream);
+    font-size: 12px;
+    letter-spacing: .04em;
+}
