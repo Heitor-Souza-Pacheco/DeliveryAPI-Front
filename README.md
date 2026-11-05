@@ -38,14 +38,14 @@ DeliveryAPI-Front/
 
 1. Inicie a API na porta `http://localhost:5295`.
 2. Abra a pasta do projeto no Visual Studio Code.
-3. Abra o arquivo `index.html) com a extensao Live Server.
-4. Acesse o endereco local mostrado pela extensao.
+3. Abra o arquivo `index.html) com a extensão Live Server.
+4. Acesse o endereço local mostrado pela extensao.
 
 A constante `API_URL`, no inicio de `js/app.js`, aponta para `http://localhost:5295/api`. Altere esse endereco caso a API esteja usando outra porta.
 
-## Configuracao de acesso entre a pagina e a API
+## Configuração de acesso entre a pagina e a API
 
-A API precisa permitir o acesso a partir do endereco usado pela extensao Live Server. No arquivo `Program.cs`, configure uma politica de CORS antes de `builder.Build()`:
+A API precisa permitir o acesso a partir do endereco usado pela extensao Live Server. No arquivo `Program.cs`, configure uma política de CORS antes de `builder.Build()`:
 
 ```csharp
 builder.Services.AddCors(options =>
@@ -72,32 +72,32 @@ Se a extensao usar outra porta, inclua o novo endereco em `WithOrigins`.
 
 ### Loja
 - Banner principal da marca.
-- Produtos em destaque e cardapio completo.
+- Produtos em destaque e cardápio completo.
 - Filtros por categoria.
-- Apresentacao da loja e explicacao de como fazer um pedido.
+- Apresentação da loja e explicacao de como fazer um pedido.
 - Pagina adaptada para celulares, tablets e computadores.
 
 ### Area do cliente
 - Cadastro e acesso a conta.
 - Consulta dos produtos pela API.
-- Adicao, alteracao de quantidade e remocao de produtos da sacola.
+- Adição, alteracao de quantidade e remocao de produtos da sacola.
 - Finalizacao de pedidos.
 - Consulta dos pedidos e de suas etapas.
 
 ### Area do entregador
 - Acesso com uma conta de entregador.
 - Consulta dos pedidos.
-- Atualizacao das etapas: Recebido, Em preparacao, Saiu para entrega e Entregue.
+- Atualização das etapas: Recebido, Em preparação, Saiu para entrega e Entregue.
 
 ## Rotas utilizadas
 
-| Metodo | Rota | Finalidade |
+| Método | Rota | Finalidade |
 |---|---|---|
 | POST | `/api/usuario` | Cadastro |
 | POST | `/api/usuario/login` | Acesso a conta |
 | GET | `/api/produto` | Listagem de produtos |
 | GET | `/api/carrinho/{usuarioId}` | Consulta da sacola |
-| POST | `/api/carrinho/{usuarioId}/itens` | Adicao de produto |
+| POST | `/api/carrinho/{usuarioId}/itens` | Adição de produto |
 | PUT | `/api/carrinho/{usuarioId}/itens/{produtoId}` | Alteracao de quantidade |
 | DELETE | `/api/carrinho/{usuarioId}/itens/{produtoId}` | Remocao de produto |
 | POST | `/api/pedido/{clienteId}` | Criacao de pedido |
@@ -105,11 +105,11 @@ Se a extensao usar outra porta, inclua o novo endereco em `WithOrigins`.
 | GET | `/api/pedido/entregador/{entregadorId}` | Consulta dos pedidos do entregador |
 | PUT | `/api/pedido/{pedidoId}/status` | Atualizacao da etapa do pedido |
 
-## Observacoes
+## Observações
 
-- Os nomes e os precos dos produtos sao carregados pela API. As fotografias locais sao associadas aos identificadores dos produtos.
-- O acesso a conta fica guardado apenas enquanto a pagina esta aberta. Ao atualizar a pagina, sera necessario entrar novamente.
+- Os nomes e os precos dos produtos são carregados pela API. As fotografias locais sao associadas aos identificadores dos produtos.
+- O acesso a conta fica guardado apenas enquanto a pagina esta aberta. Ao atualizar a pagina, será necessário entrar novamente.
 - O servidor atual utiliza armazenamento temporario em memoria. Ao reiniciar a API, os dados podem ser apagados.
-- O projeto ainda nao possui pagamento pela internet, calculo de taxa de entrega ou autenticacao por token.
-- O depoimento apresentado e apenas um exemplo e deve ser substituido por uma avaliacao real.
-- Os dados de contato e os horarios apresentados sao exemplos e devem ser atualizados pela loja.
+- O projeto ainda não possui pagamento pela internet, calculo de taxa de entrega ou autenticacao por token.
+- O depoimento apresentado é apenas um exemplo e deve ser substituido por uma avaliação real.
+- Os dados de contato e os horários apresentados sao exemplos e devem ser atualizados pela loja.
