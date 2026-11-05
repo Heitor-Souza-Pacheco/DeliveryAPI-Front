@@ -8,7 +8,7 @@ const DESCRICAO_POR_ID = {
     5: "Um abraço de chocolate em forma de donut."
 };
 const buscarElemento = (seletor, elementoRaiz = document) => elementoRaiz.querySelector(seletor);
-const buscarElementos = (seletor, elementoRaiz = document) => [...root.querySelectorAll(seletor)];
+const buscarElementos = (seletor, elementoRaiz = document) => [...elementoRaiz.querySelectorAll(seletor)];
 const produtosDestaque = buscarElemento("#produtos-destaque");
 const produtosCardapio = buscarElemento("#produtos-cardapio");
 const painelSacola = buscarElemento("#painel-sacola");
@@ -28,7 +28,7 @@ function formatarMoeda(valor) {
 }
 
 function escaparHtml(valor) {
-    return String(valor ?? "").replace(/[&<>"']/g, char => ({
+    return String(valor ?? "").replace(/[&<>"\u0027]/g, char => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
     })[char]);
 }
@@ -355,7 +355,7 @@ async function loadAccountOrders() {
             } catch (error) { showToast(error.message); }
         }));
     } catch (error) {
-        target.innerHTML = '<p class="feedback erro">' + escapeHtml(error.message) + '</p>';
+        target.innerHTML = '<p class="mensagem-retorno erro">' + escapeHtml(error.message) + '</p>';
     }
 }
 
