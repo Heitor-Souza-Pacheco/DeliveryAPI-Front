@@ -39,13 +39,13 @@ DeliveryAPI-Front/
 1. Inicie a API na porta `http://localhost:5295`.
 2. Abra a pasta do projeto no Visual Studio Code.
 3. Abra o arquivo `index.html) com a extensão Live Server.
-4. Acesse o endereço local mostrado pela extensao.
+4. Acesse o endereço local mostrado pela extensão.
 
 A constante `API_URL`, no inicio de `js/app.js`, aponta para `http://localhost:5295/api`. Altere esse endereco caso a API esteja usando outra porta.
 
-## Configuração de acesso entre a pagina e a API
+## Configuração de acesso entre a página e a API
 
-A API precisa permitir o acesso a partir do endereco usado pela extensao Live Server. No arquivo `Program.cs`, configure uma política de CORS antes de `builder.Build()`:
+A API precisa permitir o acesso a partir do endereco usado pela extensão Live Server. No arquivo `Program.cs`, configure uma política de CORS antes de `builder.Build()`:
 
 ```csharp
 builder.Services.AddCors(options =>
@@ -66,7 +66,7 @@ Depois de `var app = builder.Build();` e antes de `app.MapControllers();`, adici
 app.UseCors("FrontendPolicy");
 ```
 
-Se a extensao usar outra porta, inclua o novo endereco em `WithOrigins`.
+Se a extensão usar outra porta, inclua o novo endereco em `WithOrigins`.
 
 ## Recursos do projeto
 
@@ -108,13 +108,13 @@ Se a extensao usar outra porta, inclua o novo endereco em `WithOrigins`.
 ## Observações
 
 - Os nomes e os precos dos produtos são carregados pela API. As fotografias locais sao associadas aos identificadores dos produtos.
-- O acesso a conta fica guardado apenas enquanto a pagina esta aberta. Ao atualizar a pagina, será necessário entrar novamente.
-- O servidor atual utiliza armazenamento temporario em memoria. Ao reiniciar a API, os dados podem ser apagados.
-- O projeto ainda não possui pagamento pela internet, calculo de taxa de entrega ou autenticacao por token.
-- O depoimento apresentado é apenas um exemplo e deve ser substituido por uma avaliação real.
-- Os dados de contato e os horários apresentados sao exemplos e devem ser atualizados pela loja.
+- O acesso a conta fica guardado apenas enquanto a página esta aberta. Ao atualizar a página, será necessário entrar novamente.
+- O servidor atual utiliza armazenamento temporário em memoria. Ao reiniciar a API, os dados podem ser apagados.
+- O projeto ainda não possui pagamento pela internet, cálculo de taxa de entrega ou autenticação por token.
+- O depoimento apresentado é apenas um exemplo e deve ser substituído por uma avaliação real.
+- Os dados de contato e os horários apresentados são exemplos e devem ser atualizados pela loja.
 
 
-## Padrao de nomes do codigo
+## Padrão de nomes do código
 
-Os nomes das classes, identificadores HTML, variaveis e funcoes foram escritos em portugues para facilitar a leitura e o entendimento do projeto. Os nomes exigidos pela API e pelas ferramentas do navegador foram mantidos como padrao tecnico, pois precisam continuar iguais para que a integracao funcione.
+Os nomes das classes, identificadores HTML, variáveis e funções foram escritos em português para facilitar a leitura e o entendimento do projeto. Os nomes exigidos pela API e pelas ferramentas do navegador foram mantidos como padrao técnico, pois precisam continuar iguais para que a integração funcione.
