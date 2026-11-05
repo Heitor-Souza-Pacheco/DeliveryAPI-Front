@@ -1,16 +1,16 @@
 :root {
-    --cream:#f7edda;
-    --cream-deep:#eee0c5;
+    --creme:#f7edda;
+    --creme-deep:#eee0c5;
     --paper:#fffaf0;
     --ink:#382116;
     --ink-soft:#60412f;
     --muted:#8b7563;
-    --cocoa:#4a2819;
+    --chocolate:#4a2819;
     --chocolate:#6d3c25;
-    --caramel:#b9783e;
+    --caramelo:#b9783e;
     --honey:#d5a45f;
     --pink:#d98d91;
-    --line:#e7d8bf;
+    --linha:#e7d8bf;
     --white:#fffdf8;
     --serif:Georgia,"Times New Roman",serif
 }
@@ -32,7 +32,7 @@ body {
     -webkit-font-smoothing:antialiased
 }
 
-body.no-scroll {
+body.sem-rolagem {
     overflow:hidden
 }
 
@@ -63,25 +63,25 @@ img {
     color:var(--ink)
 }
 
-.announcement {
+.aviso-superior {
     min-height:30px;
     display:flex;
     justify-content:center;
     align-items:center;
     gap:7px;
     padding:6px 14px;
-    background:var(--cocoa);
+    background:var(--chocolate);
     color:#f9ebd1;
     font-size:11px;
     letter-spacing:.04em;
     text-align:center
 }
 
-.announcement span {
+.aviso-superior span {
     color:#e9b5a7
 }
 
-.site-header {
+.cabecalho {
     position:sticky;
     top:0;
     z-index:30;
@@ -90,7 +90,7 @@ img {
     backdrop-filter:blur(12px)
 }
 
-.header-inner {
+.conteudo-cabecalho {
     width:min(1200px,calc(100% - 56px));
     min-height:82px;
     margin:auto;
@@ -100,118 +100,118 @@ img {
     gap:28px
 }
 
-.brand {
+.marca {
     display:inline-flex;
     align-items:center;
     gap:10px;
     flex-shrink:0
 }
 
-.brand-icon {
+.simbolo-marca {
     width:42px;
     height:42px;
     display:grid;
     place-items:center;
     border-radius:50% 50% 46% 46%;
-    background:var(--caramel);
+    background:var(--caramelo);
     color:var(--paper);
     font:900 25px "Nunito",sans-serif;
     transform:rotate(-7deg);
     box-shadow:inset 0 -4px 0 rgba(68,35,19,.13)
 }
 
-.brand-name {
-    color:var(--cocoa);
+.nome-marca {
+    color:var(--chocolate);
     font:800 23px "Nunito",sans-serif;
     letter-spacing:-1.3px
 }
 
-.brand-name strong {
-    color:var(--caramel)
+.nome-marca strong {
+    color:var(--caramelo)
 }
 
-.brand-name i {
+.nome-marca i {
     color:var(--pink);
     font-style:normal
 }
 
-.main-navigation {
+.navegacao-principal {
     display:flex;
     align-items:center;
     justify-content:center;
     gap:clamp(16px,2.5vw,34px)
 }
 
-.main-navigation a {
+.navegacao-principal a {
     color:var(--ink-soft);
     font-size:12px;
     font-weight:700;
     transition:color .2s
 }
 
-.main-navigation a:hover {
-    color:var(--caramel)
+.navegacao-principal a:hover {
+    color:var(--caramelo)
 }
 
-.header-actions {
+.acoes-cabecalho {
     display:flex;
     align-items:center;
     gap:10px
 }
 
-.account-button,.cart-button {
+.botao-conta,.botao-sacola {
     min-height:42px;
-    border:1px solid var(--line);
+    border:1px solid var(--linha);
     border-radius:30px;
     background:transparent;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font-size:12px;
     font-weight:800;
     transition:background .2s,transform .2s
 }
 
-.account-button {
+.botao-conta {
     padding:0 15px
 }
 
-.account-button span:first-child {
+.botao-conta span:first-child {
     margin-right:5px;
     font-size:16px
 }
 
-.cart-button {
+.botao-sacola {
     display:inline-flex;
     align-items:center;
     gap:8px;
     padding:0 10px 0 14px
 }
 
-.cart-button>span:first-child {
+.botao-sacola>span:first-child {
     font-size:18px
 }
 
-.account-button:hover,.cart-button:hover {
-    background:var(--cream);
+.botao-conta:hover,.botao-sacola:hover {
+    background:var(--creme);
     transform:translateY(-1px)
 }
 
-.cart-count {
+.contador-sacola {
     min-width:21px;
     height:21px;
     display:grid;
     place-items:center;
     padding:0 5px;
     border-radius:50%;
-    background:var(--caramel);
+    background:var(--caramelo);
     color:white;
     font-size:10px
 }
 
-.mobile-menu-button {
+.botao-menu-celular {
     display:none
 }
 
-.hero {
+.destaque-principal {
     position:relative;
     min-height:570px;
     display:flex;
@@ -221,13 +221,13 @@ img {
     color:#fff2d8
 }
 
-.hero-shade {
+.camada-destaque {
     position:absolute;
     inset:0;
     background:linear-gradient(90deg,rgba(34,18,10,.86),rgba(39,21,12,.69) 39%,rgba(39,21,12,.13) 78%,rgba(39,21,12,.06))
 }
 
-.hero-content {
+.conteudo-destaque {
     position:relative;
     z-index:1;
     width:min(1200px,calc(100% - 56px));
@@ -235,20 +235,20 @@ img {
     padding:70px 0 90px
 }
 
-.eyebrow {
+.texto-apoio {
     display:block;
-    color:var(--caramel);
+    color:var(--caramelo);
     font-size:10px;
     font-weight:900;
     letter-spacing:.19em;
     line-height:1.6
 }
 
-.light-eyebrow {
+.texto-apoio-claro {
     color:#f1cf91
 }
 
-.hero h1 {
+.destaque-principal h1 {
     max-width:560px;
     margin:18px 0 16px;
     color:#fff1d5;
@@ -256,13 +256,13 @@ img {
     letter-spacing:-2.7px
 }
 
-.hero h1 em,.about-copy h2 em,.steps-section h2 em,.closing-cta h2 em {
+.destaque-principal h1 em,.texto-sobre h2 em,.secao-etapas h2 em,.chamada-final h2 em {
     color:#e5b878;
     font-family:var(--serif);
     font-weight:500
 }
 
-.hero-content>p {
+.conteudo-destaque>p {
     max-width:440px;
     margin:0;
     color:rgba(255,244,222,.86);
@@ -270,7 +270,7 @@ img {
     line-height:1.85
 }
 
-.hero-actions {
+.acoes-destaque {
     display:flex;
     align-items:center;
     flex-wrap:wrap;
@@ -278,7 +278,7 @@ img {
     margin-top:30px
 }
 
-.button {
+.botao {
     min-height:48px;
     display:inline-flex;
     justify-content:center;
@@ -292,37 +292,37 @@ img {
     transition:transform .22s,background .22s,box-shadow .22s
 }
 
-.button:hover {
+.botao:hover {
     transform:translateY(-2px)
 }
 
-.button-primary {
-    background:var(--caramel);
+.botao-principal {
+    background:var(--caramelo);
     color:#fffaf0;
     box-shadow:0 5px 14px rgba(83,45,22,.13)
 }
 
-.button-primary:hover {
+.botao-principal:hover {
     background:#a76532;
     box-shadow:0 8px 18px rgba(83,45,22,.2)
 }
 
-.button-outline {
+.botao-contorno {
     border-color:#cba77b;
     background:transparent;
-    color:var(--cocoa)
+    color:var(--chocolate)
 }
 
-.button-outline:hover {
-    background:var(--cream)
+.botao-contorno:hover {
+    background:var(--creme)
 }
 
-.hero-note {
+.observacao-destaque {
     color:#f5e4c9;
     font-size:11px
 }
 
-.hero-sticker {
+.selo-destaque {
     position:absolute;
     z-index:2;
     right:max(8%,calc((100vw - 1200px)/2));
@@ -341,20 +341,20 @@ img {
     transform:rotate(9deg)
 }
 
-.hero-sticker span {
+.selo-destaque span {
     font:italic 13px var(--serif)
 }
 
-.hero-sticker strong {
+.selo-destaque strong {
     font:900 16px/1.02 "Nunito",sans-serif
 }
 
-.hero-sticker i {
+.selo-destaque i {
     color:#e8ad9e;
     font-style:normal
 }
 
-.scroll-cue {
+.link-rolagem {
     position:absolute;
     z-index:2;
     bottom:20px;
@@ -368,7 +368,7 @@ img {
     color:white
 }
 
-.promise-strip {
+.faixa-beneficios {
     min-height:72px;
     display:flex;
     justify-content:center;
@@ -380,24 +380,24 @@ img {
     border-bottom:1px solid #e7d8bf
 }
 
-.promise-strip div {
+.faixa-beneficios div {
     color:#684831;
     font-size:11px;
     font-weight:700
 }
 
-.promise-strip span {
+.faixa-beneficios span {
     margin-right:7px;
-    color:var(--caramel);
+    color:var(--caramelo);
     font-size:17px;
     vertical-align:-2px
 }
 
-.section {
+.secao {
     padding:94px 0
 }
 
-.section-heading {
+.titulo-secao {
     width:min(1200px,calc(100% - 56px));
     margin:0 auto 35px;
     display:flex;
@@ -406,25 +406,25 @@ img {
     gap:24px
 }
 
-.section-heading h2,.about-copy h2,.steps-section h2,.closing-cta h2 {
+.titulo-secao h2,.texto-sobre h2,.secao-etapas h2,.chamada-final h2 {
     margin:8px 0 9px;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font:900 clamp(30px,4vw,44px)/1.12 "Nunito",sans-serif;
     letter-spacing:-1.3px
 }
 
-.section-heading h2 span {
-    color:var(--caramel)
+.titulo-secao h2 span {
+    color:var(--caramelo)
 }
 
-.section-heading p,.closing-cta p {
+.titulo-secao p,.chamada-final p {
     margin:0;
     color:var(--muted);
     font-size:13px;
     line-height:1.7
 }
 
-.text-link {
+.link-texto {
     padding-bottom:5px;
     border-bottom:1px solid #c9a47b;
     color:var(--chocolate);
@@ -433,11 +433,11 @@ img {
     white-space:nowrap
 }
 
-.text-link span {
+.link-texto span {
     margin-left:5px
 }
 
-.product-grid {
+.grade-produtos {
     width:min(1200px,calc(100% - 56px));
     margin:0 auto;
     display:grid;
@@ -445,7 +445,7 @@ img {
     gap:22px
 }
 
-.product-card {
+.cartao-produto {
     position:relative;
     overflow:hidden;
     border:1px solid #eadcc5;
@@ -454,31 +454,31 @@ img {
     transition:transform .28s,box-shadow .28s,border-color .28s
 }
 
-.product-card:hover {
+.cartao-produto:hover {
     transform:translateY(-5px) scale(1.008);
     border-color:#d8bd97;
     box-shadow:0 15px 30px rgba(75,45,25,.09)
 }
 
-.product-image-wrap {
+.area-imagem-produto {
     position:relative;
     height:225px;
     overflow:hidden;
     background:#eee0c9
 }
 
-.product-image-wrap img {
+.area-imagem-produto img {
     width:100%;
     height:100%;
     object-fit:cover;
     transition:transform .5s
 }
 
-.product-card:hover .product-image-wrap img {
+.cartao-produto:hover .area-imagem-produto img {
     transform:scale(1.045)
 }
 
-.product-tag {
+.etiqueta-produto {
     position:absolute;
     top:14px;
     left:14px;
@@ -491,17 +491,17 @@ img {
     letter-spacing:.06em
 }
 
-.product-info {
+.informacoes-produto {
     padding:18px 18px 17px
 }
 
-.product-info h3 {
+.informacoes-produto h3 {
     margin:0 0 6px;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font:900 17px "Nunito",sans-serif
 }
 
-.product-info p {
+.informacoes-produto p {
     min-height:36px;
     margin:0;
     color:var(--muted);
@@ -509,7 +509,7 @@ img {
     line-height:1.6
 }
 
-.product-bottom {
+.rodape-produto {
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -517,31 +517,31 @@ img {
     margin-top:16px
 }
 
-.product-price {
+.preco-produto {
     color:var(--chocolate);
     font:900 18px "Nunito",sans-serif
 }
 
-.add-button {
+.botao-adicionar {
     width:38px;
     height:38px;
     display:grid;
     place-items:center;
     border:0;
     border-radius:50%;
-    background:var(--cream-deep);
-    color:var(--cocoa);
+    background:var(--creme-deep);
+    color:var(--chocolate);
     font-size:22px;
     transition:transform .2s,background .2s,color .2s
 }
 
-.add-button:hover {
+.botao-adicionar:hover {
     transform:rotate(8deg) scale(1.08);
-    background:var(--caramel);
+    background:var(--caramelo);
     color:white
 }
 
-.loading-note,.catalog-error {
+.aviso-carregamento,.erro-cardapio {
     grid-column:1/-1;
     padding:32px;
     border:1px dashed #d8c5a8;
@@ -551,21 +551,21 @@ img {
     font-size:13px
 }
 
-.menu-section {
+.secao-cardapio {
     background:#f4ead8
 }
 
-.menu-section .section-heading {
+.secao-cardapio .titulo-secao {
     margin-bottom:25px
 }
 
-.menu-handwritten {
-    color:var(--caramel);
+.texto-manual {
+    color:var(--caramelo);
     font:20px "Pacifico",cursive;
     transform:rotate(-5deg)
 }
 
-.category-tabs {
+.filtros-categorias {
     width:min(1200px,calc(100% - 56px));
     margin:0 auto 28px;
     display:flex;
@@ -573,7 +573,7 @@ img {
     gap:8px
 }
 
-.category-tab {
+.filtro-categoria {
     min-height:38px;
     padding:0 17px;
     border:1px solid #dfceb2;
@@ -585,24 +585,24 @@ img {
     transition:background .2s,color .2s,border .2s
 }
 
-.category-tab:hover,.category-tab.active {
-    border-color:var(--cocoa);
-    background:var(--cocoa);
+.filtro-categoria:hover,.filtro-categoria.ativo {
+    border-color:var(--chocolate);
+    background:var(--chocolate);
     color:#fff4dc
 }
 
-.menu-grid {
+.grade-cardapio {
     grid-template-columns:repeat(3,minmax(0,1fr))
 }
 
-.menu-footnote {
+.observacao-cardapio {
     width:min(1200px,calc(100% - 56px));
     margin:20px auto 0;
     color:#947d66;
     font-size:10px
 }
 
-.about-section {
+.secao-sobre {
     width:min(1120px,calc(100% - 56px));
     margin:0 auto;
     display:grid;
@@ -611,19 +611,19 @@ img {
     gap:clamp(42px,8vw,105px)
 }
 
-.about-photo {
+.foto-sobre {
     position:relative;
     min-height:420px
 }
 
-.about-photo>img {
+.foto-sobre>img {
     width:100%;
     height:420px;
     object-fit:cover;
     border-radius:48% 48% 18px 18px
 }
 
-.photo-note {
+.legenda-foto {
     position:absolute;
     right:-22px;
     bottom:25px;
@@ -631,66 +631,66 @@ img {
     border:1px solid #e4c99f;
     border-radius:4px;
     background:#fff4dc;
-    color:var(--cocoa);
+    color:var(--chocolate);
     box-shadow:0 8px 24px #42230e18;
     transform:rotate(3deg)
 }
 
-.photo-note span {
+.legenda-foto span {
     display:block;
     margin-bottom:5px;
-    color:var(--caramel);
+    color:var(--caramelo);
     font:italic 13px var(--serif)
 }
 
-.photo-note strong {
+.legenda-foto strong {
     font:900 17px/1.1 "Nunito",sans-serif
 }
 
-.about-copy h2 {
+.texto-sobre h2 {
     margin:13px 0 18px;
     font-size:clamp(32px,4vw,43px)
 }
 
-.about-copy h2 em {
-    color:var(--caramel)
+.texto-sobre h2 em {
+    color:var(--caramelo)
 }
 
-.about-copy p {
+.texto-sobre p {
     color:#786452;
     font-size:13px;
     line-height:1.9
 }
 
-.about-copy .button {
+.texto-sobre .botao {
     margin-top:10px
 }
 
-.signature {
+.assinatura {
     display:block;
     margin-top:20px;
-    color:var(--caramel);
+    color:var(--caramelo);
     font:16px "Pacifico",cursive
 }
 
-.steps-section {
+.secao-etapas {
     background:#fffaf0
 }
 
-.centered-heading {
+.titulo-centralizado {
     display:block;
     text-align:center
 }
 
-.centered-heading h2 {
+.titulo-centralizado h2 {
     margin-top:10px
 }
 
-.steps-section h2 em {
-    color:var(--caramel)
+.secao-etapas h2 em {
+    color:var(--caramelo)
 }
 
-.steps-grid {
+.grade-etapas {
     width:min(1040px,calc(100% - 56px));
     margin:45px auto 0;
     display:grid;
@@ -698,7 +698,7 @@ img {
     gap:22px
 }
 
-.step-card {
+.cartao-etapa {
     position:relative;
     min-height:225px;
     padding:30px 25px;
@@ -708,7 +708,7 @@ img {
     text-align:center
 }
 
-.step-number {
+.numero-etapa {
     position:absolute;
     top:15px;
     right:18px;
@@ -716,7 +716,7 @@ img {
     font:900 12px "Nunito",sans-serif
 }
 
-.step-icon {
+.texto-etapa {
     width:53px;
     height:53px;
     margin:0 auto 17px;
@@ -724,17 +724,17 @@ img {
     place-items:center;
     border-radius:50%;
     background:#f2e4ce;
-    color:var(--caramel);
+    color:var(--caramelo);
     font-size:23px
 }
 
-.step-card h3 {
+.cartao-etapa h3 {
     margin:0 0 8px;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font:900 16px "Nunito",sans-serif
 }
 
-.step-card p {
+.cartao-etapa p {
     max-width:245px;
     margin:0 auto;
     color:var(--muted);
@@ -742,50 +742,50 @@ img {
     line-height:1.7
 }
 
-.testimonial-section {
+.secao-depoimento {
     padding:75px 28px;
-    background:var(--cocoa);
+    background:var(--chocolate);
     color:#fff0d4;
     text-align:center
 }
 
-.testimonial-inner {
+.conteudo-depoimento {
     max-width:730px;
     margin:auto
 }
 
-.quote-mark {
+.marca-citacao {
     height:56px;
     margin-top:12px;
     color:#d7a56b;
     font:80px/1 var(--serif)
 }
 
-.testimonial-inner blockquote {
+.conteudo-depoimento blockquote {
     margin:8px auto 18px;
     font:italic clamp(19px,2.8vw,27px)/1.55 var(--serif)
 }
 
-.quote-stars {
+.avaliacao-estrelas {
     color:#e6b56d;
     letter-spacing:5px
 }
 
-.quote-author {
+.autor-depoimento {
     margin:10px 0 0;
     color:#f6e4c6;
     font-size:11px;
     font-weight:800
 }
 
-.testimonial-disclaimer {
+.aviso-depoimento {
     display:block;
     margin-top:22px;
     color:#c5a98c;
     font-size:9px
 }
 
-.closing-cta {
+.chamada-final {
     position:relative;
     width:min(1200px,calc(100% - 56px));
     margin:auto;
@@ -796,19 +796,19 @@ img {
     gap:25px
 }
 
-.closing-cta h2 {
+.chamada-final h2 {
     margin:8px 0
 }
 
-.closing-cta h2 em {
-    color:var(--caramel)
+.chamada-final h2 em {
+    color:var(--caramelo)
 }
 
-.closing-cta .button {
+.chamada-final .botao {
     flex-shrink:0
 }
 
-.cta-sparkle {
+.detalhe-chamada {
     position:absolute;
     right:18%;
     top:24px;
@@ -816,12 +816,12 @@ img {
     font-size:25px
 }
 
-.site-footer {
+.rodape {
     background:#f0e4d0;
     border-top:1px solid #e2d1b6
 }
 
-.footer-main {
+.conteudo-rodape {
     width:min(1200px,calc(100% - 56px));
     margin:auto;
     padding:54px 0 42px;
@@ -830,17 +830,17 @@ img {
     gap:45px
 }
 
-.footer-brand .brand-icon {
+.marca-rodape .simbolo-marca {
     width:36px;
     height:36px;
     font-size:21px
 }
 
-.footer-brand .brand-name {
+.marca-rodape .nome-marca {
     font-size:21px
 }
 
-.footer-brand-column>p {
+.coluna-marca>p {
     max-width:270px;
     margin:16px 0;
     color:#826c57;
@@ -848,12 +848,12 @@ img {
     line-height:1.8
 }
 
-.social-links {
+.links-redes-sociais {
     display:flex;
     gap:8px
 }
 
-.social-links a {
+.links-redes-sociais a {
     width:30px;
     height:30px;
     display:grid;
@@ -865,13 +865,13 @@ img {
     font-weight:900
 }
 
-.footer-column h3 {
+.coluna-rodape h3 {
     margin:4px 0 17px;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font:900 13px "Nunito",sans-serif
 }
 
-.footer-column a,.footer-column p {
+.coluna-rodape a,.coluna-rodape p {
     display:block;
     margin:0 0 10px;
     color:#826c57;
@@ -879,17 +879,17 @@ img {
     line-height:1.65
 }
 
-.footer-column a:hover {
-    color:var(--caramel)
+.coluna-rodape a:hover {
+    color:var(--caramelo)
 }
 
-.footer-small {
+.texto-rodape-pequeno {
     margin-top:14px!important;
     color:#a18b74!important;
     font-size:9px!important
 }
 
-.footer-bottom {
+.base-rodape {
     min-height:52px;
     width:min(1200px,calc(100% - 56px));
     margin:auto;
@@ -902,12 +902,12 @@ img {
     font-size:9px
 }
 
-.footer-bottom a {
+.base-rodape a {
     color:var(--chocolate);
     font-weight:800
 }
 
-.overlay {
+.fundo-sobreposto {
     position:fixed;
     z-index:49;
     inset:0;
@@ -917,12 +917,12 @@ img {
     transition:opacity .25s,visibility .25s
 }
 
-.overlay.visible {
+.fundo-sobreposto.visivel {
     opacity:1;
     visibility:visible
 }
 
-.cart-drawer {
+.painel-sacola {
     position:fixed;
     z-index:50;
     top:0;
@@ -938,44 +938,44 @@ img {
     transition:transform .3s ease
 }
 
-.cart-drawer.open {
+.painel-sacola.aberto {
     transform:translateX(0)
 }
 
-.drawer-header,.modal-header {
+.cabecalho-painel,.cabecalho-janela {
     display:flex;
     align-items:flex-start;
     justify-content:space-between;
     gap:15px;
     padding-bottom:20px;
-    border-bottom:1px solid var(--line)
+    border-bottom:1px solid var(--linha)
 }
 
-.drawer-header h2,.modal-header h2 {
+.cabecalho-painel h2,.cabecalho-janela h2 {
     margin:4px 0 0;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font:900 25px "Nunito",sans-serif
 }
 
-.icon-button {
+.botao-icone {
     width:34px;
     height:34px;
     display:grid;
     place-items:center;
-    border:1px solid var(--line);
+    border:1px solid var(--linha);
     border-radius:50%;
     background:transparent;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font-size:22px
 }
 
-.cart-items {
+.itens-sacola {
     flex:1;
     overflow-y:auto;
     padding:15px 0
 }
 
-.empty-cart {
+.sacola-vazia {
     padding:35px 15px;
     color:var(--muted);
     font-size:13px;
@@ -983,34 +983,34 @@ img {
     text-align:center
 }
 
-.cart-row {
+.linha-sacola {
     display:grid;
     grid-template-columns:62px 1fr;
     gap:13px;
     padding:13px 0;
-    border-bottom:1px solid var(--line)
+    border-bottom:1px solid var(--linha)
 }
 
-.cart-row img {
+.linha-sacola img {
     width:62px;
     height:62px;
     border-radius:12px;
     object-fit:cover
 }
 
-.cart-row h3 {
+.linha-sacola h3 {
     margin:3px 0 4px;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font:900 13px "Nunito",sans-serif
 }
 
-.cart-row p {
+.linha-sacola p {
     margin:0;
     color:var(--muted);
     font-size:10px
 }
 
-.cart-row-bottom {
+.rodape-linha-sacola {
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -1018,34 +1018,34 @@ img {
     margin-top:9px
 }
 
-.cart-row-bottom strong {
+.rodape-linha-sacola strong {
     color:var(--chocolate);
     font-size:12px
 }
 
-.quantity-control {
+.controle-quantidade {
     display:flex;
     align-items:center;
     gap:8px
 }
 
-.quantity-control button {
+.controle-quantidade button {
     width:24px;
     height:24px;
-    border:1px solid var(--line);
+    border:1px solid var(--linha);
     border-radius:50%;
     background:white;
-    color:var(--cocoa)
+    color:var(--chocolate)
 }
 
-.quantity-control span {
+.controle-quantidade span {
     min-width:12px;
     color:var(--ink);
     font-size:11px;
     text-align:center
 }
 
-.remove-item {
+.botao-remover-item {
     padding:3px 0;
     border:0;
     background:transparent;
@@ -1053,12 +1053,12 @@ img {
     font-size:10px
 }
 
-.cart-footer {
+.rodape-sacola {
     padding-top:18px;
-    border-top:1px solid var(--line)
+    border-top:1px solid var(--linha)
 }
 
-.cart-total {
+.total-sacola {
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -1067,23 +1067,23 @@ img {
     font-size:13px
 }
 
-.cart-total strong {
-    color:var(--cocoa);
+.total-sacola strong {
+    color:var(--chocolate);
     font:900 22px "Nunito",sans-serif
 }
 
-.checkout-button {
+.botao-finalizar-pedido {
     width:100%
 }
 
-.cart-footer>p {
+.rodape-sacola>p {
     margin:10px 0 0;
     color:var(--muted);
     font-size:9px;
     text-align:center
 }
 
-.account-modal {
+.janela-conta {
     position:fixed;
     z-index:51;
     top:50%;
@@ -1102,13 +1102,13 @@ img {
     transition:opacity .25s,visibility .25s,transform .25s
 }
 
-.account-modal.open {
+.janela-conta.aberto {
     opacity:1;
     visibility:visible;
     transform:translate(-50%,-50%)
 }
 
-.auth-tabs {
+.abas-acesso {
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:5px;
@@ -1118,7 +1118,7 @@ img {
     background:#f0e4d0
 }
 
-.auth-tab {
+.aba-acesso {
     min-height:37px;
     border:0;
     border-radius:25px;
@@ -1128,24 +1128,24 @@ img {
     font-weight:900
 }
 
-.auth-tab.active {
-    background:var(--cocoa);
+.aba-acesso.ativo {
+    background:var(--chocolate);
     color:#fff3dd
 }
 
-.form-stack {
+.formulario-empilhado {
     display:grid;
     gap:9px
 }
 
-.form-stack label {
+.formulario-empilhado label {
     margin-top:5px;
     color:#71543c;
     font-size:11px;
     font-weight:800
 }
 
-.form-stack input,.form-stack select {
+.formulario-empilhado input,.formulario-empilhado select {
     width:100%;
     min-height:43px;
     padding:0 13px;
@@ -1157,16 +1157,16 @@ img {
     font-size:12px
 }
 
-.form-stack input:focus,.form-stack select:focus {
-    border-color:var(--caramel);
+.formulario-empilhado input:focus,.formulario-empilhado select:focus {
+    border-color:var(--caramelo);
     box-shadow:0 0 0 3px #b9783e18
 }
 
-.form-stack .button {
+.formulario-empilhado .botao {
     margin-top:10px
 }
 
-.feedback {
+.mensagem-retorno {
     min-height:18px;
     margin:12px 0 0;
     color:var(--muted);
@@ -1174,70 +1174,70 @@ img {
     line-height:1.5
 }
 
-.feedback.error {
+.mensagem-retorno.erro {
     color:#a84d3f
 }
 
-.feedback.success {
+.mensagem-retorno.sucesso {
     color:#547a45
 }
 
-.hidden {
+.oculto {
     display:none!important
 }
 
-.account-welcome {
+.boas-vindas-conta {
     margin:18px 0;
     color:var(--muted);
     font-size:12px;
     line-height:1.7
 }
 
-.account-actions {
+.acoes-conta {
     display:grid;
     gap:9px
 }
 
-.order-list {
+.lista-pedidos {
     display:grid;
     gap:10px;
     margin-top:18px
 }
 
-.order-item {
+.item-pedido {
     padding:13px;
-    border:1px solid var(--line);
+    border:1px solid var(--linha);
     border-radius:12px;
     background:white
 }
 
-.order-item-top {
+.topo-item-pedido {
     display:flex;
     justify-content:space-between;
     gap:10px;
-    color:var(--cocoa);
+    color:var(--chocolate);
     font-size:11px;
     font-weight:900
 }
 
-.order-item p {
+.item-pedido p {
     margin:8px 0 0;
     color:var(--muted);
     font-size:10px;
     line-height:1.6
 }
 
-.order-status {
-    color:var(--caramel)
+.situacao-pedido {
+    color:var(--caramelo)
 }
 
-.order-update-button {
+.botao-atualizar-pedido {
     margin-top:10px;
     min-height:36px;
     font-size:10px
 }
 
-.toast {
+.aviso-temporario {
     position:fixed;
     z-index:70;
     left:50%;
@@ -1245,7 +1245,7 @@ img {
     max-width:calc(100% - 30px);
     padding:12px 18px;
     border-radius:30px;
-    background:var(--cocoa);
+    background:var(--chocolate);
     color:#fff2d8;
     box-shadow:0 8px 25px #2b180e30;
     font-size:11px;
@@ -1255,19 +1255,19 @@ img {
     transition:opacity .2s,transform .2s,visibility .2s
 }
 
-.toast.visible {
+.aviso-temporario.visivel {
     opacity:1;
     visibility:visible;
     transform:translate(-50%,0)
 }
 
-.reveal {
+.animar-entrada {
     opacity:0;
     transform:translateY(18px);
     transition:opacity .65s ease,transform .65s ease
 }
 
-.reveal.is-visible {
+.animar-entrada.esta-visivel {
     opacity:1;
     transform:translateY(0)
 }
@@ -1279,7 +1279,7 @@ img {
         transition-duration:.01ms!important
     }
 
-    .reveal {
+    .animar-entrada {
         opacity:1;
         transform:none
     }
@@ -1287,37 +1287,37 @@ img {
 }
 
 @media(max-width:900px) {
-    .header-inner {
+    .conteudo-cabecalho {
         width:min(100% - 36px,1200px);
         gap:15px
     }
 
-    .main-navigation {
+    .navegacao-principal {
         gap:14px
     }
 
-    .main-navigation a {
+    .navegacao-principal a {
         font-size:10px
     }
 
-    .account-button {
+    .botao-conta {
         padding:0 11px
     }
 
-    .product-grid {
+    .grade-produtos {
         gap:15px
     }
 
-    .product-image-wrap {
+    .area-imagem-produto {
         height:190px
     }
 
-    .footer-main {
+    .conteudo-rodape {
         grid-template-columns:1.4fr 1fr 1fr;
         gap:28px
     }
 
-    .footer-column:last-child {
+    .coluna-rodape:last-child {
         grid-column:2/4
     }
 
@@ -1328,25 +1328,25 @@ img {
         scroll-padding-top:75px
     }
 
-    .announcement {
+    .aviso-superior {
         font-size:9px
     }
 
-    .header-inner {
+    .conteudo-cabecalho {
         min-height:70px
     }
 
-    .brand-icon {
+    .simbolo-marca {
         width:36px;
         height:36px;
         font-size:22px
     }
 
-    .brand-name {
+    .nome-marca {
         font-size:20px
     }
 
-    .mobile-menu-button {
+    .botao-menu-celular {
         width:36px;
         height:36px;
         display:flex;
@@ -1354,32 +1354,32 @@ img {
         justify-content:center;
         gap:5px;
         padding:8px;
-        border:1px solid var(--line);
+        border:1px solid var(--linha);
         border-radius:50%;
         background:transparent
     }
 
-    .mobile-menu-button span {
+    .botao-menu-celular span {
         width:100%;
         height:2px;
         border-radius:2px;
-        background:var(--cocoa);
+        background:var(--chocolate);
         transition:transform .2s
     }
 
-    .mobile-menu-button[aria-expanded=true] span:first-child {
+    .botao-menu-celular[aria-expanded=true] span:first-child {
         transform:translateY(7px) rotate(45deg)
     }
 
-    .mobile-menu-button[aria-expanded=true] span:nth-child(2) {
+    .botao-menu-celular[aria-expanded=true] span:nth-child(2) {
         opacity:0
     }
 
-    .mobile-menu-button[aria-expanded=true] span:last-child {
+    .botao-menu-celular[aria-expanded=true] span:last-child {
         transform:translateY(-7px) rotate(-45deg)
     }
 
-    .main-navigation {
+    .navegacao-principal {
         position:absolute;
         top:100%;
         left:0;
@@ -1390,258 +1390,258 @@ img {
         gap:0;
         padding:0 22px;
         background:var(--paper);
-        border-bottom:1px solid var(--line);
+        border-bottom:1px solid var(--linha);
         max-height:0;
         overflow:hidden;
         transition:max-height .28s ease,padding .28s ease
     }
 
-    .main-navigation.open {
+    .navegacao-principal.aberto {
         max-height:330px;
         padding:10px 22px 18px
     }
 
-    .main-navigation a {
+    .navegacao-principal a {
         padding:12px 4px;
         border-bottom:1px solid #eee3d1;
         font-size:12px
     }
 
-    .header-actions {
+    .acoes-cabecalho {
         margin-left:auto;
         gap:6px
     }
 
-    .account-button {
+    .botao-conta {
         min-height:36px;
         padding:0 10px;
         font-size:10px
     }
 
-    .cart-button {
+    .botao-sacola {
         min-height:36px;
         padding:0 7px 0 10px;
         gap:5px
     }
 
-    .cart-label {
+    .texto-sacola {
         display:none
     }
 
-    .hero {
+    .destaque-principal {
         min-height:560px;
         background-position:58% center
     }
 
-    .hero-shade {
+    .camada-destaque {
         background:linear-gradient(90deg,rgba(34,18,10,.82),rgba(39,21,12,.52) 72%,rgba(39,21,12,.22))
     }
 
-    .hero-content {
+    .conteudo-destaque {
         width:calc(100% - 42px);
         padding:75px 0 105px
     }
 
-    .hero h1 {
+    .destaque-principal h1 {
         max-width:420px;
         font-size:clamp(43px,11vw,60px);
         letter-spacing:-2px
     }
 
-    .hero-content>p {
+    .conteudo-destaque>p {
         max-width:360px;
         font-size:13px
     }
 
-    .hero-sticker {
+    .selo-destaque {
         right:20px;
         bottom:20px;
         width:84px;
         height:84px
     }
 
-    .hero-sticker strong {
+    .selo-destaque strong {
         font-size:13px
     }
 
-    .hero-sticker span {
+    .selo-destaque span {
         font-size:11px
     }
 
-    .scroll-cue {
+    .link-rolagem {
         display:none
     }
 
-    .promise-strip {
+    .faixa-beneficios {
         justify-content:flex-start;
         gap:12px 22px;
         padding:17px 22px
     }
 
-    .promise-strip div {
+    .faixa-beneficios div {
         width:calc(50% - 12px);
         font-size:10px
     }
 
-    .section {
+    .secao {
         padding:68px 0
     }
 
-    .section-heading {
+    .titulo-secao {
         width:calc(100% - 42px);
         display:block;
         margin-bottom:25px
     }
 
-    .section-heading h2 {
+    .titulo-secao h2 {
         font-size:34px
     }
 
-    .section-heading p {
+    .titulo-secao p {
         max-width:360px
     }
 
-    .section-heading .text-link {
+    .titulo-secao .link-texto {
         display:inline-block;
         margin-top:16px
     }
 
-    .product-grid {
+    .grade-produtos {
         width:calc(100% - 42px);
         grid-template-columns:repeat(2,minmax(0,1fr));
         gap:12px
     }
 
-    .product-image-wrap {
+    .area-imagem-produto {
         height:155px
     }
 
-    .product-info {
+    .informacoes-produto {
         padding:13px
     }
 
-    .product-info h3 {
+    .informacoes-produto h3 {
         font-size:14px
     }
 
-    .product-info p {
+    .informacoes-produto p {
         min-height:48px;
         font-size:10px
     }
 
-    .product-price {
+    .preco-produto {
         font-size:15px
     }
 
-    .add-button {
+    .botao-adicionar {
         width:34px;
         height:34px
     }
 
-    .category-tabs {
+    .filtros-categorias {
         width:calc(100% - 42px);
         gap:7px
     }
 
-    .category-tab {
+    .filtro-categoria {
         min-height:34px;
         padding:0 12px;
         font-size:10px
     }
 
-    .menu-footnote {
+    .observacao-cardapio {
         width:calc(100% - 42px)
     }
 
-    .menu-handwritten {
+    .texto-manual {
         display:inline-block;
         margin-top:10px
     }
 
-    .about-section {
+    .secao-sobre {
         width:calc(100% - 42px);
         grid-template-columns:1fr;
         gap:38px
     }
 
-    .about-photo {
+    .foto-sobre {
         min-height:330px;
         width:calc(100% - 15px)
     }
 
-    .about-photo>img {
+    .foto-sobre>img {
         height:330px
     }
 
-    .photo-note {
+    .legenda-foto {
         right:-15px;
         bottom:15px;
         padding:13px 16px
     }
 
-    .photo-note strong {
+    .legenda-foto strong {
         font-size:14px
     }
 
-    .about-copy h2 {
+    .texto-sobre h2 {
         font-size:35px
     }
 
-    .steps-grid {
+    .grade-etapas {
         width:calc(100% - 42px);
         grid-template-columns:1fr;
         gap:12px;
         margin-top:30px
     }
 
-    .step-card {
+    .cartao-etapa {
         min-height:auto;
         padding:23px 20px
     }
 
-    .step-icon {
+    .texto-etapa {
         margin-bottom:12px
     }
 
-    .testimonial-section {
+    .secao-depoimento {
         padding:60px 22px
     }
 
-    .closing-cta {
+    .chamada-final {
         width:calc(100% - 42px);
         padding:58px 0;
         display:block
     }
 
-    .closing-cta h2 {
+    .chamada-final h2 {
         font-size:34px
     }
 
-    .closing-cta .button {
+    .chamada-final .botao {
         margin-top:22px
     }
 
-    .cta-sparkle {
+    .detalhe-chamada {
         right:4px;
         top:27px
     }
 
-    .footer-main {
+    .conteudo-rodape {
         width:calc(100% - 42px);
         grid-template-columns:1fr 1fr;
         gap:28px 20px;
         padding:42px 0 30px
     }
 
-    .footer-brand-column {
+    .coluna-marca {
         grid-column:1/3
     }
 
-    .footer-column:last-child {
+    .coluna-rodape:last-child {
         grid-column:auto
     }
 
-    .footer-bottom {
+    .base-rodape {
         width:calc(100% - 42px);
         min-height:58px;
         font-size:8px
@@ -1650,49 +1650,49 @@ img {
 }
 
 @media(max-width:390px) {
-    .header-inner {
+    .conteudo-cabecalho {
         width:calc(100% - 24px);
         gap:8px
     }
 
-    .brand {
+    .marca {
         gap:6px
     }
 
-    .brand-name {
+    .nome-marca {
         font-size:17px
     }
 
-    .brand-icon {
+    .simbolo-marca {
         width:32px;
         height:32px
     }
 
-    .account-button {
+    .botao-conta {
         padding:0 8px
     }
 
-    .product-grid {
+    .grade-produtos {
         grid-template-columns:1fr
     }
 
-    .product-image-wrap {
+    .area-imagem-produto {
         height:205px
     }
 
-    .product-info p {
+    .informacoes-produto p {
         min-height:auto
     }
 
 }
 
 /* O banner já contém sua própria chamada principal; o botão fica sobre a área livre da foto. */
-.hero-content {
+.conteudo-destaque {
     align-self:flex-end;
     padding:0 0 48px
 }
 
-.hero-content .eyebrow,.hero-content h1,.hero-content>p,.hero-note {
+.conteudo-destaque .texto-apoio,.conteudo-destaque h1,.conteudo-destaque>p,.observacao-destaque {
     position:absolute;
     width:1px;
     height:1px;
@@ -1704,12 +1704,12 @@ img {
     border:0
 }
 
-.hero-actions {
+.acoes-destaque {
     margin-top:0
 }
 
 @media(max-width:700px) {
-    .hero-content {
+    .conteudo-destaque {
         padding-bottom:42px
     }
 
@@ -1718,7 +1718,7 @@ img {
 
 
 /* Ajustes dos botoes depois da retirada dos simbolos decorativos. */
-.add-button {
+.botao-adicionar {
     width: auto;
     min-width: 88px;
     padding: 0 12px;
@@ -1727,7 +1727,7 @@ img {
     font-weight: 800;
 }
 
-.icon-button {
+.botao-icone {
     width: auto;
     min-width: 62px;
     height: 34px;
@@ -1737,7 +1737,7 @@ img {
     font-weight: 700;
 }
 
-.step-icon {
+.texto-etapa {
     width: auto;
     min-width: 90px;
     height: auto;
@@ -1748,7 +1748,7 @@ img {
     font-weight: 800;
 }
 
-.scroll-cue {
+.link-rolagem {
     width: auto;
     height: auto;
     padding: 8px 14px;
@@ -1757,7 +1757,7 @@ img {
     font-weight: 700;
 }
 
-.quantity-control button {
+.controle-quantidade button {
     min-width: 42px;
     width: auto;
     padding: 0 8px;
@@ -1766,9 +1766,9 @@ img {
     font-weight: 700;
 }
 
-.quote-rating {
+.avaliacao-depoimento {
     margin: 12px 0;
-    color: var(--cream);
+    color: var(--creme);
     font-size: 12px;
     letter-spacing: .04em;
 }
