@@ -1,6 +1,6 @@
-# Donut Show — Delivery de Donuts
+# Donut Show - Loja de Donuts
 
-Frontend de uma loja artesanal de donuts, desenvolvido com **HTML, CSS e JavaScript puro**, integrado à API ASP.NET Core do projeto [DeliveryAPI](https://github.com/Heitor-Souza-Pacheco/DeliveryAPI).
+Interface de uma loja artesanal de donuts, desenvolvido com **HTML, CSS e JavaScript puro**, integrado à API ASP.NET Core do projeto [DeliveryAPI](https://github.com/Heitor-Souza-Pacheco/DeliveryAPI).
 
 ## Identidade visual
 
@@ -19,33 +19,33 @@ Não utiliza React, Tailwind, TypeScript ou bibliotecas de interface.
 
 ```text
 DeliveryAPI-Front/
-├── index.html
-├── css/
-│   └── style.css
-├── js/
-│   └── app.js
-├── images/
-│   ├── banner.jpg
-│   ├── donut1.jpg
-│   ├── donut2.jpg
-│   ├── donut3.jpg
-│   ├── donut4.jpg
-│   └── donut5.jpg
-└── README.md
+|-- index.html
+|-- css/
+|   `-- style.css
+|-- js/
+|   `-- app.js
+|-- images/
+|   |-- banner.jpg
+|   |-- donut1.jpg
+|   |-- donut2.jpg
+|   |-- donut3.jpg
+|   |-- donut4.jpg
+|   `-- donut5.jpg
+`-- README.md
 ```
 
-## Executar localmente
+## Como executar no computador
 
 1. Inicie a API DeliveryAPI na porta `http://localhost:5295`.
 2. Abra a pasta do frontend no VS Code.
-3. Inicie o `index.html` com Live Server.
+3. Inicie o `index.html` com Servidor local do VS Code.
 4. Acesse o endereço local exibido pela extensão.
 
 A constante `API_URL` no início de `js/app.js` aponta para `http://localhost:5295/api`. Altere-a caso a API esteja em outra porta.
 
 ## CORS
 
-A API precisa permitir a origem usada pelo Live Server. No `Program.cs`, configure uma política CORS antes de `builder.Build()`:
+A API precisa permitir a origem usada pelo Servidor local do VS Code. No `Program.cs`, configure uma política CORS antes de `builder.Build()`:
 
 ```csharp
 builder.Services.AddCors(options =>
@@ -66,30 +66,30 @@ Depois de `var app = builder.Build();` e antes de `app.MapControllers();`:
 app.UseCors("FrontendPolicy");
 ```
 
-Se o Live Server usar outra porta, adicione a origem correspondente em `WithOrigins`.
+Se o Servidor local do VS Code usar outra porta, adicione a origem correspondente em `WithOrigins`.
 
-## Funcionalidades
+## Recursos do projeto
 
 ### Loja
-- Hero com o banner da marca.
+- Banner principal da marca.
 - Seção de produtos em destaque e cardápio completo.
 - Filtros por categoria.
 - Apresentação institucional, etapas de compra e área de depoimento.
 - Layout adaptado para celular, tablet e desktop.
 
-### Cliente
+### Área do cliente
 - Cadastro e login.
 - Catálogo carregado pela API.
 - Adição, alteração de quantidade e remoção de itens do carrinho.
 - Finalização do pedido.
 - Consulta do histórico e status dos pedidos.
 
-### Entregador
+### Área do entregador
 - Login com tipo de conta Entregador.
 - Consulta dos pedidos disponíveis.
-- Atualização do status: Recebido → Em preparação → Saiu para entrega → Entregue.
+- Atualização do status: Recebido, Em preparação, Saiu para entrega e Entregue.
 
-## Endpoints utilizados
+## Rotas utilizadas
 
 | Método | Endpoint | Uso |
 |---|---|---|
@@ -109,7 +109,7 @@ Se o Live Server usar outra porta, adicione a origem correspondente em `WithOrig
 
 - O catálogo e os preços exibidos vêm da API. As imagens locais são associadas aos IDs dos produtos para apresentação visual.
 - A sessão fica em memória no navegador e termina ao atualizar a página.
-- O backend acadêmico atual utiliza armazenamento temporário em memória; reiniciar a API pode apagar os dados.
+- O servidor acadêmico atual utiliza armazenamento temporário em memória; reiniciar a API pode apagar os dados.
 - O projeto ainda não implementa pagamento online, cálculo de frete ou autenticação por token.
 - O texto de depoimento é demonstrativo e deve ser substituído por avaliações reais antes de uso comercial.
 - Os dados de contato e horários no rodapé são exemplos e devem ser atualizados pela loja.
