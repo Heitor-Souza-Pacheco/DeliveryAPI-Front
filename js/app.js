@@ -53,7 +53,7 @@ async function apiRequest(path, options = {}) {
     if (!response.ok) {
         const message = typeof data === "string"
             ? data
-            : data?.mensagem || data?.title || data?.message || "Não foi possível concluir a operação.";
+            : data?.mensagem || data?.title || data?.message || "Não foi possível concluir a solicitação.";
         throw new Error(message);
     }
     return data;
@@ -63,7 +63,7 @@ function categoryFor(product) {
     const name = String(product.nome || "").toLowerCase();
     if (/chocolate|cacau|brigadeiro/.test(name) || [2, 4, 5].includes(Number(product.id))) return "Chocolate";
     if (/morango|confete|colorid|especial/.test(name) || Number(product.id) === 1) return "Especiais";
-    return "Clássicos";
+    return "Tradicionais";
 }
 
 function imageFor(product) {
@@ -81,12 +81,12 @@ function productCard(product, featured = false) {
         '<span class="product-tag">' + (featured ? "QUERIDINHO DA CASA" : escapeHtml(category.toUpperCase())) + '</span></div>' +
         '<div class="product-info"><h3>' + escapeHtml(product.nome) + '</h3><p>' + escapeHtml(descriptionFor(product)) + '</p>' +
         '<div class="product-bottom"><span class="product-price">' + money(product.preco) + '</span>' +
-        '<button class="add-button" type="button" data-add-product="' + Number(product.id) + '" aria-label="Adicionar ' + escapeHtml(product.nome) + ' à sacola">+</button></div></div></article>';
+        '<button class="add-button" type="button" data-add-product="' + Number(product.id) + '" aria-label="Adicionar produto à sacola">Adicionar</button></div></div></article>';
 }
 
 function renderProducts() {
     if (!products.length) {
-        const empty = '<div class="catalog-error">Nosso cardápio está sendo preparado. Tente novamente em instantes. ♡</div>';
+        const empty = '<div class="catalog-error">Nosso cardápio está sendo preparado. Tente novamente em instantes.</div>';
         featuredProducts.innerHTML = empty;
         menuProducts.innerHTML = empty;
         return;
@@ -98,7 +98,7 @@ function renderProducts() {
         : products.filter(product => categoryFor(product) === selectedCategory);
     menuProducts.innerHTML = filtered.length
         ? filtered.map(product => productCard(product)).join("")
-        : '<div class="catalog-error">Ainda não temos donuts nesta categoria. Experimente outra seleção. ♡</div>';
+        : '<div class="catalog-error">Ainda não temos donuts nesta categoria. Experimente outra seleção.</div>';
 
     $$("[data-add-product]").forEach(button => {
         button.addEventListener("click", () => addToCart(Number(button.dataset.addProduct)));
@@ -139,11 +139,11 @@ async function addToCart(productId) {
             body: { produtoId: productId, quantidade: 1 }
         });
         await loadCart();
-        showToast("Donut adicionado à sua sacola! ♡");
+        showToast("Donut adicionado à sua sacola.");
         const button = document.querySelector('[data-add-product="' + productId + '"]');
         if (button) {
-            button.textContent = "✓";
-            setTimeout(() => { if (button.isConnected) button.textContent = "+"; }, 900);
+            button.textContent = "Adicionado";
+            setTimeout(() => { if (button.isConnected) button.textContent = "Adicionar"; }, 900);
         }
     } catch (error) { showToast(error.message); }
 }
@@ -167,12 +167,12 @@ function renderCart() {
         return '<article class="cart-row"><img src="' + image + '" alt="" loading="lazy"><div>' +
             '<h3>' + escapeHtml(item.nome) + '</h3><p>' + money(item.precoUnitario) + ' por unidade</p>' +
             '<div class="cart-row-bottom"><div class="quantity-control">' +
-            '<button type="button" data-quantity-change="-1" data-product-id="' + item.produtoId + '" aria-label="Diminuir quantidade">−</button>' +
+            '<button type="button" data-quantity-change="-1" data-product-id="' + item.produtoId + '" aria-label="Diminuir quantidade">Menos</button>' +
             '<span>' + Number(item.quantidade) + '</span>' +
-            '<button type="button" data-quantity-change="1" data-product-id="' + item.produtoId + '" aria-label="Aumentar quantidade">+</button>' +
+            '<button type="button" data-quantity-change="1" data-product-id="' + item.produtoId + '" aria-label="Aumentar quantidade">Mais</button>' +
             '</div><strong>' + money(Number(item.precoUnitario) * Number(item.quantidade)) + '</strong></div>' +
             '<button class="remove-item" type="button" data-remove-item="' + item.produtoId + '">Remover</button></div></article>';
-    }).join("") : '<div class="empty-cart">Sua sacola está esperando por coisas gostosas. ♡<br>Escolha seus donuts favoritos no cardápio!</div>';
+    }).join("") : '<div class="empty-cart">Sua sacola está esperando por coisas gostosas.<br>Escolha seus donuts favoritos no cardápio!</div>';
 
     $("#cart-total").textContent = money(cartData.total);
     $$("[data-quantity-change]").forEach(button => button.addEventListener("click", () => {
@@ -272,7 +272,7 @@ async function handleLogin(event) {
     try {
         const result = await apiRequest("/usuario/login", { method: "POST", body: payload });
         startSession(result.usuario);
-        showToast("Que bom ter você por aqui, " + result.usuario.nome.split(" ")[0] + "! ♡");
+        showToast("Que bom ter você por aqui, " + result.usuario.nome.split(" ")[0] + "!");
     } catch (error) { showAuthMessage(error.message, "error"); }
 }
 
@@ -311,14 +311,14 @@ function endSession() {
 }
 
 function renderAccountHome() {
-    const isCustomer = currentUser.tipoConta === "Cliente";
+    const isCliente = currentUser.tipoConta === "Cliente";
     $("#account-modal-title").textContent = "Olá, " + currentUser.nome.split(" ")[0] + "!";
     $("#account-content").innerHTML =
-        '<p class="account-welcome">' + (isCustomer
+        '<p class="account-welcome">' + (isCliente
             ? "Que bom ter você por aqui. Acompanhe seus pedidos ou continue escolhendo seus favoritos."
             : "Aqui estão os pedidos que precisam de acompanhamento.") + '</p>' +
         '<div class="account-actions"><button class="button button-primary" id="account-orders" type="button">' +
-        (isCustomer ? "Acompanhar meus pedidos" : "Ver pedidos para entrega") +
+        (isCliente ? "Acompanhar meus pedidos" : "Ver pedidos para entrega") +
         '</button><button class="button button-outline" id="logout-button" type="button">Sair da conta</button></div>' +
         '<div id="account-orders-list"></div>';
     $("#account-orders").addEventListener("click", loadAccountOrders);
@@ -385,7 +385,7 @@ async function checkout() {
     try {
         const order = await apiRequest("/pedido/" + currentUser.id, { method: "POST" });
         await loadCart();
-        showToast("Pedido #" + order.id + " recebido! Obrigado pela preferência. ♡");
+        showToast("Pedido #" + order.id + " recebido! Obrigado pela preferência.");
         closePanels();
         openAccount();
         loadAccountOrders();
@@ -393,7 +393,7 @@ async function checkout() {
         showToast(error.message);
     } finally {
         button.disabled = false;
-        button.innerHTML = 'Finalizar pedido <span>→</span>';
+        button.textContent = "Finalizar pedido";
     }
 }
 
