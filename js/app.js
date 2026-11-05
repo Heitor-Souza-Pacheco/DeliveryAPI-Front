@@ -236,17 +236,17 @@ function mostrarMensagemAcesso(mensagemErro, tipoMensagem = "") {
     mensagemAcesso.className = "mensagem-retorno " + tipoMensagem;
 }
 
-function mostrarFormulariosAcesso(aba = "login") {
-    buscarElemento("#titulo-janela-conta").textContent = aba === "login" ? "Entre na sua conta" : "Vamos criar sua conta?";
+function mostrarFormulariosAcesso(aba = "entrar") {
+    buscarElemento("#titulo-janela-conta").textContent = aba === "entrar" ? "Entre na sua conta" : "Vamos criar sua conta?";
     buscarElemento("#conteudo-conta").innerHTML =
-        '<div class="abas-acesso"><button class="aba-acesso ' + (aba === "login" ? "ativo" : "") + '" data-aba-acesso="login" type="button">Entrar</button>' +
-        '<button class="aba-acesso ' + (aba === "register" ? "ativo" : "") + '" data-aba-acesso="register" type="button">Criar conta</button></div>' +
-        '<form id="formulario-acesso" class="formulario-empilhado ' + (aba === "register" ? "oculto" : "") + '">' +
+        '<div class="abas-acesso"><button class="aba-acesso ' + (aba === "entrar" ? "ativo" : "") + '" data-aba-acesso="entrar" type="button">Entrar</button>' +
+        '<button class="aba-acesso ' + (aba === "cadastro" ? "ativo" : "") + '" data-aba-acesso="cadastro" type="button">Criar conta</button></div>' +
+        '<form id="formulario-acesso" class="formulario-empilhado ' + (aba === "cadastro" ? "oculto" : "") + '">' +
         '<label for="email-acesso">E-mail</label><input id="email-acesso" name="email" type="email" placeholder="voce@email.com" autocomplete="email" required>' +
         '<label for="senha-acesso">Senha</label><input id="senha-acesso" name="senha" type="password" placeholder="Sua senha" autocomplete="current-password" required>' +
         '<label for="tipo-acesso">Tipo de conta</label><select id="tipo-acesso" name="tipoConta"><option value="Cliente">Cliente</option><option value="Entregador">Entregador</option></select>' +
         '<button class="botao botao-principal" type="submit">Entrar</button></form>' +
-        '<form id="formulario-cadastro" class="formulario-empilhado ' + (aba === "login" ? "oculto" : "") + '">' +
+        '<form id="formulario-cadastro" class="formulario-empilhado ' + (aba === "entrar" ? "oculto" : "") + '">' +
         '<label for="nome-cadastro">Seu nome</label><input id="nome-cadastro" name="nome" type="text" placeholder="Como podemos te chamar?" autocomplete="name" required>' +
         '<label for="email-cadastro">E-mail</label><input id="email-cadastro" name="email" type="email" placeholder="voce@email.com" autocomplete="email" required>' +
         '<label for="senha-cadastro">Senha</label><input id="senha-cadastro" name="senha" type="password" placeholder="Crie uma senha" autocomplete="new-password" required>' +
@@ -287,7 +287,7 @@ async function realizarCadastro(evento) {
     };
     try {
         await requisitarApi("/usuario", { method: "POST", body: dadosEnvio });
-        mostrarFormulariosAcesso("login");
+        mostrarFormulariosAcesso("entrar");
         buscarElemento("#email-acesso").value = dadosEnvio.email;
         buscarElemento("#tipo-acesso").value = dadosEnvio.tipoConta;
         mostrarMensagemAcesso("Conta criada! Agora entre com seu e-mail e senha.", "sucesso");
