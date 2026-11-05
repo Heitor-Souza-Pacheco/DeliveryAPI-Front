@@ -1,15 +1,19 @@
-# DeliveryAPI-Front
+# Donut Show — Delivery de Donuts
 
-Frontend do projeto Delivery App, desenvolvido com **HTML, CSS e JavaScript puro**, integrado à API ASP.NET Core do repositório [DeliveryAPI](https://github.com/Heitor-Souza-Pacheco/DeliveryAPI).
+Frontend de uma loja artesanal de donuts, desenvolvido com **HTML, CSS e JavaScript puro**, integrado à API ASP.NET Core do projeto [DeliveryAPI](https://github.com/Heitor-Souza-Pacheco/DeliveryAPI).
+
+## Identidade visual
+
+A interface usa como referência o banner e as fotografias presentes em `images/`, com uma paleta de creme, chocolate, caramelo e tons quentes. O layout é responsivo e prioriza uma apresentação acolhedora de loja artesanal.
 
 ## Tecnologias
 
-- HTML5
-- CSS3
-- JavaScript (Fetch API)
+- HTML5 semântico
+- CSS3 (responsivo, animações leves e respeito a `prefers-reduced-motion`)
+- JavaScript moderno e Fetch API
 - API REST em ASP.NET Core
 
-Não utiliza React, TypeScript, frameworks CSS ou bibliotecas externas de interface.
+Não utiliza React, Tailwind, TypeScript ou bibliotecas de interface.
 
 ## Estrutura
 
@@ -20,23 +24,28 @@ DeliveryAPI-Front/
 │   └── style.css
 ├── js/
 │   └── app.js
+├── images/
+│   ├── banner.jpg
+│   ├── donut1.jpg
+│   ├── donut2.jpg
+│   ├── donut3.jpg
+│   ├── donut4.jpg
+│   └── donut5.jpg
 └── README.md
 ```
 
-## Executar
+## Executar localmente
 
-1. Clone o repositório.
-2. Inicie a API DeliveryAPI na porta `http://localhost:5295`.
-3. Abra o frontend com uma extensão de servidor local, como Live Server (VS Code).
+1. Inicie a API DeliveryAPI na porta `http://localhost:5295`.
+2. Abra a pasta do frontend no VS Code.
+3. Inicie o `index.html` com Live Server.
 4. Acesse o endereço local exibido pela extensão.
 
-O frontend está configurado para consumir `http://localhost:5295/api`. Se a API estiver em outra porta, altere a constante `API_URL` no início de `js/app.js`.
+A constante `API_URL` no início de `js/app.js` aponta para `http://localhost:5295/api`. Altere-a caso a API esteja em outra porta.
 
 ## CORS
 
-Como o frontend e a API são executados em origens diferentes, habilite CORS no projeto ASP.NET Core.
-
-No `Program.cs`, antes de `var app = builder.Build();`, adicione:
+A API precisa permitir a origem usada pelo Live Server. No `Program.cs`, configure uma política CORS antes de `builder.Build()`:
 
 ```csharp
 builder.Services.AddCors(options =>
@@ -51,26 +60,33 @@ builder.Services.AddCors(options =>
 });
 ```
 
-Depois de `var app = builder.Build();` e antes de `app.MapControllers();`, adicione:
+Depois de `var app = builder.Build();` e antes de `app.MapControllers();`:
 
 ```csharp
 app.UseCors("FrontendPolicy");
 ```
 
-Se o Live Server usar outra porta, inclua a origem correspondente em `WithOrigins`.
+Se o Live Server usar outra porta, adicione a origem correspondente em `WithOrigins`.
 
 ## Funcionalidades
 
+### Loja
+- Hero com o banner da marca.
+- Seção de produtos em destaque e cardápio completo.
+- Filtros por categoria.
+- Apresentação institucional, etapas de compra e área de depoimento.
+- Layout adaptado para celular, tablet e desktop.
+
 ### Cliente
-- Cadastro e login com seleção do tipo de conta.
-- Visualização do catálogo.
-- Adição, alteração e remoção de itens do carrinho.
-- Finalização de pedido.
-- Consulta dos próprios pedidos e status.
+- Cadastro e login.
+- Catálogo carregado pela API.
+- Adição, alteração de quantidade e remoção de itens do carrinho.
+- Finalização do pedido.
+- Consulta do histórico e status dos pedidos.
 
 ### Entregador
-- Login como entregador.
-- Visualização dos pedidos disponíveis.
+- Login com tipo de conta Entregador.
+- Consulta dos pedidos disponíveis.
 - Atualização do status: Recebido → Em preparação → Saiu para entrega → Entregue.
 
 ## Endpoints utilizados
@@ -91,7 +107,9 @@ Se o Live Server usar outra porta, inclua a origem correspondente em `WithOrigin
 
 ## Observações
 
-- O projeto utiliza os endpoints e os formatos de dados definidos pela API atual.
-- A sessão fica apenas em memória no navegador e é encerrada ao atualizar a página.
-- O backend escolar atual utiliza armazenamento temporário em memória; reiniciar a API pode apagar os dados cadastrados.
-- Este projeto é acadêmico e não implementa autenticação por token ou armazenamento seguro de credenciais no navegador.
+- O catálogo e os preços exibidos vêm da API. As imagens locais são associadas aos IDs dos produtos para apresentação visual.
+- A sessão fica em memória no navegador e termina ao atualizar a página.
+- O backend acadêmico atual utiliza armazenamento temporário em memória; reiniciar a API pode apagar os dados.
+- O projeto ainda não implementa pagamento online, cálculo de frete ou autenticação por token.
+- O texto de depoimento é demonstrativo e deve ser substituído por avaliações reais antes de uso comercial.
+- Os dados de contato e horários no rodapé são exemplos e devem ser atualizados pela loja.
