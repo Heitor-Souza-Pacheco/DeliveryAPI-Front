@@ -81,7 +81,7 @@ function criarCartaoProduto(produto, destaque = false) {
         '<span class="etiqueta-produto">' + (destaque ? "QUERIDINHO DA CASA" : escaparHtml(categoria.toUpperCase())) + '</span></div>' +
         '<div class="informacoes-produto"><h3>' + escaparHtml(produto.nome) + '</h3><p>' + escaparHtml(obterDescricao(produto)) + '</p>' +
         '<div class="rodape-produto"><span class="preco-produto">' + formatarMoeda(produto.preco) + '</span>' +
-        '<button class="botao-adicionar" type="botao" data-adicionar-produto="' + Number(produto.id) + '" aria-label="Adicionar produto à sacola">Adicionar</button></div></div></article>';
+        '<button class="botao-adicionar" type="button" data-adicionar-produto="' + Number(produto.id) + '" aria-label="Adicionar produto à sacola">Adicionar</button></div></div></article>';
 }
 
 function mostrarProdutos() {
@@ -94,7 +94,7 @@ function mostrarProdutos() {
 
     produtosDestaque.innerHTML = produtos.slice(0, 3).map(produto => criarCartaoProduto(produto, true)).join("");
     const produtosFiltrados = categoriaSelecionada === "Todos"
-        ? products
+        ? produtos
         : produtos.filter(produto => obterCategoria(produto) === categoriaSelecionada);
     produtosCardapio.innerHTML = produtosFiltrados.length
         ? produtosFiltrados.map(produto => criarCartaoProduto(produto)).join("")
@@ -167,12 +167,12 @@ function mostrarSacola() {
         return '<article class="linha-sacola"><img src="' + imagem + '" alt="" loading="lazy"><div>' +
             '<h3>' + escaparHtml(itemSacola.nome) + '</h3><p>' + formatarMoeda(itemSacola.precoUnitario) + ' por unidade</p>' +
             '<div class="rodape-linha-sacola"><div class="controle-quantidade">' +
-            '<button type="botao" data-alterar-quantidade="-1" data-produto-id="' + itemSacola.produtoId + '" aria-label="Diminuir quantidade">Menos</button>' +
+            '<button type="button" data-alterar-quantidade="-1" data-produto-id="' + itemSacola.produtoId + '" aria-label="Diminuir quantidade">Menos</button>' +
             '<span>' + Number(itemSacola.quantidade) + '</span>' +
-            '<button type="botao" data-alterar-quantidade="1" data-produto-id="' + itemSacola.produtoId + '" aria-label="Aumentar quantidade">Mais</button>' +
+            '<button type="button" data-alterar-quantidade="1" data-produto-id="' + itemSacola.produtoId + '" aria-label="Aumentar quantidade">Mais</button>' +
             '</div><strong>' + formatarMoeda(Number(itemSacola.precoUnitario) * Number(itemSacola.quantidade)) + '</strong></div>' +
-            '<button class="botao-remover-item" type="botao" data-remover-item="' + itemSacola.produtoId + '">Remover</button></div></article>';
-    }).join("") : '<div class="empty-cart">Sua sacola está esperando por coisas gostosas.<br>Escolha seus donuts favoritos no cardápio!</div>';
+            '<button class="botao-remover-item" type="button" data-remover-item="' + itemSacola.produtoId + '">Remover</button></div></article>';
+    }).join("") : '<div class="sacola-vazia">Sua sacola está esperando por coisas gostosas.<br>Escolha seus donuts favoritos no cardápio!</div>';
 
     buscarElemento("#total-sacola").textContent = formatarMoeda(dadosSacola.total);
     buscarElementos("[data-alterar-quantidade]").forEach(botao => botao.addEventListener("click", () => {
@@ -239,8 +239,8 @@ function mostrarMensagemAcesso(mensagemErro, tipoMensagem = "") {
 function mostrarFormulariosAcesso(aba = "login") {
     buscarElemento("#janela-conta-title").textContent = aba === "login" ? "Entre na sua conta" : "Vamos criar sua conta?";
     buscarElemento("#conteudo-conta").innerHTML =
-        '<div class="abas-acesso"><button class="aba-acesso ' + (aba === "login" ? "ativo" : "") + '" data-aba-acesso="login" type="botao">Entrar</button>' +
-        '<button class="aba-acesso ' + (aba === "register" ? "ativo" : "") + '" data-aba-acesso="register" type="botao">Criar conta</button></div>' +
+        '<div class="abas-acesso"><button class="aba-acesso ' + (aba === "login" ? "ativo" : "") + '" data-aba-acesso="login" type="button">Entrar</button>' +
+        '<button class="aba-acesso ' + (aba === "register" ? "ativo" : "") + '" data-aba-acesso="register" type="button">Criar conta</button></div>' +
         '<form id="formulario-acesso" class="formulario-empilhado ' + (aba === "register" ? "oculto" : "") + '">' +
         '<label for="email-acesso">E-mail</label><input id="email-acesso" name="email" type="email" placeholder="voce@email.com" autocomplete="email" required>' +
         '<label for="senha-acesso">Senha</label><input id="senha-acesso" name="senha" type="password" placeholder="Sua senha" autocomplete="current-password" required>' +
@@ -317,9 +317,9 @@ function mostrarInicioConta() {
         '<p class="boas-vindas-conta">' + (ehCliente
             ? "Que bom ter você por aqui. Acompanhe seus pedidos ou continue escolhendo seus favoritos."
             : "Aqui estão os pedidos que precisam de acompanhamento.") + '</p>' +
-        '<div class="acoes-conta"><button class="botao botao-principal" id="botao-pedidos-conta" type="botao">' +
+        '<div class="acoes-conta"><button class="botao botao-principal" id="botao-pedidos-conta" type="button">' +
         (ehCliente ? "Acompanhar meus pedidos" : "Ver pedidos para entrega") +
-        '</button><button class="botao botao-contorno" id="botao-sair-conta" type="botao">Sair da conta</button></div>' +
+        '</button><button class="botao botao-contorno" id="botao-sair-conta" type="button">Sair da conta</button></div>' +
         '<div id="lista-pedidos-conta"></div>';
     buscarElemento("#botao-pedidos-conta").addEventListener("click", carregarPedidosConta);
     buscarElemento("#botao-sair-conta").addEventListener("click", encerrarSessao);
@@ -338,7 +338,7 @@ async function carregarPedidosConta() {
             const proximaEtapa = { Recebido: "EmPreparacao", EmPreparacao: "SaiuParaEntrega", SaiuParaEntrega: "Entregue" }[pedido.status];
             const nomesEtapas = { EmPreparacao: "Iniciar preparação", SaiuParaEntrega: "Saiu para entrega", Entregue: "Marcar como entregue" };
             const botaoAtualizar = usuarioAtual.tipoConta === "Entregador" && proximaEtapa
-                ? '<button class="botao botao-contorno botao-atualizar-pedido" data-pedido-id="' + pedido.id + '" data-proxima-etapa="' + proximaEtapa + '" type="botao">' + nomesEtapas[proximaEtapa] + '</button>'
+                ? '<button class="botao botao-contorno botao-atualizar-pedido" data-pedido-id="' + pedido.id + '" data-proxima-etapa="' + proximaEtapa + '" type="button">' + nomesEtapas[proximaEtapa] + '</button>'
                 : "";
             return '<article class="item-pedido"><div class="topo-item-pedido"><span>Pedido #' + pedido.id + '</span><span class="situacao-pedido">' + formatarSituacao(pedido.status) + '</span></div>' +
                 '<p>' + itensSacola + '<br>Total: <strong>' + formatarMoeda(pedido.total) + '</strong></p>' + botaoAtualizar + '</article>';
@@ -400,13 +400,13 @@ async function finalizarPedido() {
 function configurarAnimacoesEntrada() {
     const elementos = buscarElementos(".animar-entrada");
     if (!("IntersectionObserver" in window)) {
-        elementos.forEach(elemento => elemento.classList.add("is-visible"));
+        elementos.forEach(elemento => elemento.classList.add("esta-visivel"));
         return;
     }
     const observador = new IntersectionObserver(entradas => {
         entradas.forEach(produtoDaLista => {
             if (produtoDaLista.isIntersecting) {
-                produtoDaLista.target.classList.add("is-visible");
+                produtoDaLista.target.classList.add("esta-visivel");
                 observador.unobserve(produtoDaLista.target);
             }
         });
@@ -437,7 +437,7 @@ function configurarEventos() {
         const botao = evento.target.closest("[data-categoria]");
         if (!botao) return;
         categoriaSelecionada = botao.dataset.categoria;
-        buscarElementos(".category-tab").forEach(aba => aba.classList.toggle("ativo", aba === botao));
+        buscarElementos(".filtro-categoria").forEach(aba => aba.classList.toggle("ativo", aba === botao));
         mostrarProdutos();
     });
     document.addEventListener("keydown", evento => {
