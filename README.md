@@ -113,3 +113,8 @@ Se a extensao usar outra porta, inclua o novo endereco em `WithOrigins`.
 - O projeto ainda não possui pagamento pela internet, calculo de taxa de entrega ou autenticacao por token.
 - O depoimento apresentado é apenas um exemplo e deve ser substituido por uma avaliação real.
 - Os dados de contato e os horários apresentados sao exemplos e devem ser atualizados pela loja.
+
+
+## Padrao de nomes do codigo
+
+Os nomes das classes, identificadores HTML, variaveis e funcoes foram escritos em portugues para facilitar a leitura e o entendimento do projeto. Os nomes exigidos pela API e pelas ferramentas do navegador foram mantidos como padrao tecnico, pois precisam continuar iguais para que a integracao funcione.
