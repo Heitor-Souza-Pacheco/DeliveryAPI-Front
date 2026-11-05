@@ -7,15 +7,15 @@ const DESCRICAO_POR_ID = {
     4: "Uma camada generosa de chocolate para quem ama esse sabor.",
     5: "Um abraço de chocolate em forma de donut."
 };
-const $ = (seletor, elementoRaiz = document) => elementoRaiz.querySelector(seletor);
-const $$ = (seletor, elementoRaiz = document) => [...elementoRaiz.querySelectorAll(seletor)];
-const produtosDestaque = $("#produtos-destaque");
-const produtosCardapio = $("#produtos-cardapio");
-const painelSacola = $("#painel-sacola");
-const janelaConta = $("#janela-conta");
-const fundoSobreposto = $("#fundo-sobreposto");
-const aviso = $("#aviso-temporario");
-const mensagemAcesso = $("#mensagem-acesso");
+const buscarElemento = (seletor, elementoRaiz = document) => elementoRaiz.querySelector(seletor);
+const buscarElementos = (seletor, elementoRaiz = document) => [...elementoRaiz.querySelectorAll(seletor)];
+const produtosDestaque = buscarElemento("#produtos-destaque");
+const produtosCardapio = buscarElemento("#produtos-cardapio");
+const painelSacola = buscarElemento("#painel-sacola");
+const janelaConta = buscarElemento("#janela-conta");
+const fundoSobreposto = buscarElemento("#fundo-sobreposto");
+const aviso = buscarElemento("#aviso-temporario");
+const mensagemAcesso = buscarElemento("#mensagem-acesso");
 
 let produtos = [];
 let usuarioAtual = null;
@@ -28,424 +28,424 @@ function formatarMoeda(valor) {
 }
 
 function escaparHtml(valor) {
-    return String(valor ?? "").replace(/[&<>"']/g, char => ({
+    return String(valor ?? "").replace(/[&<>\x22\u0027]/g, caractere => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-    })[char]);
+    })[caractere]);
 }
 
-async function apiRequest(path, options = {}) {
-    const config = {
-        method: options.method || "GET",
-        headers: { "Content-Type": "application/json", ...(options.headers || {}) }
+async function requisitarApi(rota, opcoes = {}) {
+    const configuracao = {
+        method: opcoes.method || "GET",
+        headers: { "Content-Type": "application/json", ...(opcoes.headers || {}) }
     };
-    if (options.body !== undefined) config.body = JSON.stringify(options.body);
+    if (opcoes.body !== undefined) configuracao.body = JSON.stringify(opcoes.body);
 
-    let response;
+    let resposta;
     try {
-        response = await fetch(API_URL + path, config);
+        resposta = await fetch(ENDERECO_API + rota, configuracao);
     } catch {
         throw new Error("Não foi possível conectar à loja. Confira se a API está em execução.");
     }
 
-    const raw = await response.text();
-    let data = null;
-    try { data = raw ? JSON.parse(raw) : null; } catch { data = raw; }
-    if (!response.ok) {
-        const message = typeof data === "string"
-            ? data
-            : data?.mensagem || data?.title || data?.message || "Não foi possível concluir a solicitação.";
-        throw new Error(message);
+    const textoBruto = await resposta.text();
+    let dadosResposta = null;
+    try { dadosResposta = textoBruto ? JSON.parse(textoBruto) : null; } catch { dadosResposta = textoBruto; }
+    if (!resposta.ok) {
+        const mensagemErro = typeof dadosResposta === "string"
+            ? dadosResposta
+            : dadosResposta?.mensagem || dadosResposta?.title || dadosResposta?.message || "Não foi possível concluir a solicitação.";
+        throw new Error(mensagemErro);
     }
-    return data;
+    return dadosResposta;
 }
 
-function categoryFor(product) {
-    const name = String(product.nome || "").toLowerCase();
-    if (/chocolate|cacau|brigadeiro/.test(name) || [2, 4, 5].includes(Number(product.id))) return "Chocolate";
-    if (/morango|confete|colorid|especial/.test(name) || Number(product.id) === 1) return "Especiais";
+function obterCategoria(produto) {
+    const nomeProduto = String(produto.nome || "").toLowerCase();
+    if (/chocolate|cacau|brigadeiro/.test(nomeProduto) || [2, 4, 5].includes(Number(produto.id))) return "Chocolate";
+    if (/morango|confete|colorid|especial/.test(nomeProduto) || Number(produto.id) === 1) return "Especiais";
     return "Tradicionais";
 }
 
-function imageFor(product) {
-    return "images/" + (IMAGE_BY_ID[Number(product.id)] || "donut3.jpg");
+function obterImagem(produto) {
+    return "images/" + (IMAGEM_POR_ID[Number(produto.id)] || "donut3.jpg");
 }
 
-function descriptionFor(product) {
-    return DESCRIPTION_BY_ID[Number(product.id)] || "Preparado com carinho para deixar seu dia mais gostoso.";
+function obterDescricao(produto) {
+    return DESCRICAO_POR_ID[Number(produto.id)] || "Preparado com carinho para deixar seu dia mais gostoso.";
 }
 
-function productCard(product, featured = false) {
-    const category = categoryFor(product);
+function criarCartaoProduto(produto, destaque = false) {
+    const categoria = obterCategoria(produto);
     return '<article class="cartao-produto">' +
-        '<div class="area-imagem-produto"><img src="' + imageFor(product) + '" alt="' + escapeHtml(product.nome) + '" loading="lazy">' +
-        '<span class="etiqueta-produto">' + (featured ? "QUERIDINHO DA CASA" : escapeHtml(category.toUpperCase())) + '</span></div>' +
-        '<div class="informacoes-produto"><h3>' + escapeHtml(product.nome) + '</h3><p>' + escapeHtml(descriptionFor(product)) + '</p>' +
-        '<div class="rodape-produto"><span class="preco-produto">' + money(product.preco) + '</span>' +
-        '<button class="botao-adicionar" type="botao" data-adicionar-produto="' + Number(product.id) + '" aria-label="Adicionar produto à sacola">Adicionar</button></div></div></article>';
+        '<div class="area-imagem-produto"><img src="' + obterImagem(produto) + '" alt="' + escaparHtml(produto.nome) + '" loading="lazy">' +
+        '<span class="etiqueta-produto">' + (destaque ? "QUERIDINHO DA CASA" : escaparHtml(categoria.toUpperCase())) + '</span></div>' +
+        '<div class="informacoes-produto"><h3>' + escaparHtml(produto.nome) + '</h3><p>' + escaparHtml(obterDescricao(produto)) + '</p>' +
+        '<div class="rodape-produto"><span class="preco-produto">' + formatarMoeda(produto.preco) + '</span>' +
+        '<button class="botao-adicionar" type="botao" data-adicionar-produto="' + Number(produto.id) + '" aria-label="Adicionar produto à sacola">Adicionar</button></div></div></article>';
 }
 
-function renderProducts() {
-    if (!products.length) {
-        const empty = '<div class="erro-cardapio">Nosso cardápio está sendo preparado. Tente novamente em instantes.</div>';
-        featuredProducts.innerHTML = empty;
-        menuProducts.innerHTML = empty;
+function mostrarProdutos() {
+    if (!produtos.length) {
+        const mensagemVazia = '<div class="erro-cardapio">Nosso cardápio está sendo preparado. Tente novamente em instantes.</div>';
+        produtosDestaque.innerHTML = mensagemVazia;
+        produtosCardapio.innerHTML = mensagemVazia;
         return;
     }
 
-    featuredProducts.innerHTML = products.slice(0, 3).map(product => productCard(product, true)).join("");
-    const filtered = selectedCategory === "Todos"
+    produtosDestaque.innerHTML = produtos.slice(0, 3).map(produto => criarCartaoProduto(produto, true)).join("");
+    const produtosFiltrados = categoriaSelecionada === "Todos"
         ? products
-        : products.filter(product => categoryFor(product) === selectedCategory);
-    menuProducts.innerHTML = filtered.length
-        ? filtered.map(product => productCard(product)).join("")
+        : produtos.filter(produto => obterCategoria(produto) === categoriaSelecionada);
+    produtosCardapio.innerHTML = produtosFiltrados.length
+        ? produtosFiltrados.map(produto => criarCartaoProduto(produto)).join("")
         : '<div class="erro-cardapio">Ainda não temos donuts nesta categoria. Experimente outra seleção.</div>';
 
-    $$("[dadosResposta-adicionar-produto]").forEach(button => {
-        button.addEventListener("click", () => addToCart(Number(button.dataset.adicionarProduto)));
+    buscarElementos("[data-adicionar-produto]").forEach(botao => {
+        botao.addEventListener("click", () => adicionarASacola(Number(botao.dataset.adicionarProduto)));
     });
 }
 
-async function loadProducts() {
+async function carregarProdutos() {
     try {
-        products = await apiRequest("/produto");
-        renderProducts();
-    } catch (error) {
-        featuredProducts.innerHTML = '<div class="erro-cardapio">' + escapeHtml(error.message) + '</div>';
-        menuProducts.innerHTML = '<div class="erro-cardapio">' + escapeHtml(error.message) + '</div>';
+        produtos = await requisitarApi("/produto");
+        mostrarProdutos();
+    } catch (erro) {
+        produtosDestaque.innerHTML = '<div class="erro-cardapio">' + escaparHtml(erro.message) + '</div>';
+        produtosCardapio.innerHTML = '<div class="erro-cardapio">' + escaparHtml(erro.message) + '</div>';
     }
 }
 
-function showToast(message) {
-    toast.textContent = message;
-    toast.classList.add("visible");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("visible"), 2600);
+function mostrarAviso(mensagemErro) {
+    aviso.textContent = mensagemErro;
+    aviso.classList.add("visivel");
+    clearTimeout(temporizadorAviso);
+    temporizadorAviso = setTimeout(() => aviso.classList.remove("visivel"), 2600);
 }
 
-function updateCartBadge(cart = cartData) {
-    const count = (cart.itens || []).reduce((sum, item) => sum + Number(item.quantidade || 0), 0);
-    $("#contador-sacola").textContent = count;
+function atualizarContadorSacola(sacola = dadosSacola) {
+    const quantidadeTotal = (sacola.itens || []).reduce((soma, itemSacola) => soma + Number(itemSacola.quantidade || 0), 0);
+    buscarElemento("#contador-sacola").textContent = quantidadeTotal;
 }
 
-async function addToCart(productId) {
-    if (!currentUser || currentUser.tipoConta !== "Cliente") {
-        openAccount();
-        showAuthMessage("Entre como cliente para adicionar seus donuts à sacola.");
+async function adicionarASacola(produtoId) {
+    if (!usuarioAtual || usuarioAtual.tipoConta !== "Cliente") {
+        abrirConta();
+        mostrarMensagemAcesso("Entre como cliente para adicionar seus donuts à sacola.");
         return;
     }
     try {
-        await apiRequest("/carrinho/" + currentUser.id + "/itens", {
+        await requisitarApi("/carrinho/" + usuarioAtual.id + "/itens", {
             method: "POST",
-            body: { produtoId: productId, quantidade: 1 }
+            body: { produtoId: produtoId, quantidade: 1 }
         });
-        await loadCart();
-        showToast("Donut adicionado à sua sacola.");
-        const button = document.querySelector('[data-adicionar-produto="' + productId + '"]');
-        if (button) {
-            button.textContent = "Adicionado";
-            setTimeout(() => { if (button.isConnected) button.textContent = "Adicionar"; }, 900);
+        await carregarSacola();
+        mostrarAviso("Donut adicionado à sua sacola.");
+        const botao = document.querySelector('[data-adicionar-produto="' + produtoId + '"]');
+        if (botao) {
+            botao.textContent = "Adicionado";
+            setTimeout(() => { if (botao.isConnected) botao.textContent = "Adicionar"; }, 900);
         }
-    } catch (error) { showToast(error.message); }
+    } catch (erro) { mostrarAviso(erro.message); }
 }
 
-async function loadCart() {
-    if (!currentUser || currentUser.tipoConta !== "Cliente") {
-        cartData = { itens: [], total: 0 };
-        updateCartBadge();
+async function carregarSacola() {
+    if (!usuarioAtual || usuarioAtual.tipoConta !== "Cliente") {
+        dadosSacola = { itens: [], total: 0 };
+        atualizarContadorSacola();
         return;
     }
-    cartData = await apiRequest("/carrinho/" + currentUser.id);
-    updateCartBadge();
-    renderCart();
+    dadosSacola = await requisitarApi("/carrinho/" + usuarioAtual.id);
+    atualizarContadorSacola();
+    mostrarSacola();
 }
 
-function renderCart() {
-    const items = cartData.itens || [];
-    $("#itens-sacola").innerHTML = items.length ? items.map(item => {
-        const product = products.find(entry => Number(entry.id) === Number(item.produtoId));
-        const image = product ? imageFor(product) : "images/donut3.jpg";
-        return '<article class="linha-sacola"><img src="' + image + '" alt="" loading="lazy"><div>' +
-            '<h3>' + escapeHtml(item.nome) + '</h3><p>' + money(item.precoUnitario) + ' por unidade</p>' +
+function mostrarSacola() {
+    const itensSacola = dadosSacola.itens || [];
+    buscarElemento("#itens-sacola").innerHTML = itensSacola.length ? itensSacola.map(itemSacola => {
+        const produto = produtos.find(produtoDaLista => Number(produtoDaLista.id) === Number(itemSacola.produtoId));
+        const imagem = produto ? obterImagem(produto) : "images/donut3.jpg";
+        return '<article class="linha-sacola"><img src="' + imagem + '" alt="" loading="lazy"><div>' +
+            '<h3>' + escaparHtml(itemSacola.nome) + '</h3><p>' + formatarMoeda(itemSacola.precoUnitario) + ' por unidade</p>' +
             '<div class="rodape-linha-sacola"><div class="controle-quantidade">' +
-            '<button type="botao" data-alterar-quantidade="-1" data-produto-id="' + item.produtoId + '" aria-label="Diminuir quantidade">Menos</button>' +
-            '<span>' + Number(item.quantidade) + '</span>' +
-            '<button type="botao" data-alterar-quantidade="1" data-produto-id="' + item.produtoId + '" aria-label="Aumentar quantidade">Mais</button>' +
-            '</div><strong>' + money(Number(item.precoUnitario) * Number(item.quantidade)) + '</strong></div>' +
-            '<button class="botao-remover-itemSacola" type="botao" data-remover-item="' + item.produtoId + '">Remover</button></div></article>';
-    }).join("") : '<div class="sacola-vazia">Sua sacola está esperando por coisas gostosas.<br>Escolha seus donuts favoritos no cardápio!</div>';
+            '<button type="botao" data-alterar-quantidade="-1" data-produto-id="' + itemSacola.produtoId + '" aria-label="Diminuir quantidade">Menos</button>' +
+            '<span>' + Number(itemSacola.quantidade) + '</span>' +
+            '<button type="botao" data-alterar-quantidade="1" data-produto-id="' + itemSacola.produtoId + '" aria-label="Aumentar quantidade">Mais</button>' +
+            '</div><strong>' + formatarMoeda(Number(itemSacola.precoUnitario) * Number(itemSacola.quantidade)) + '</strong></div>' +
+            '<button class="botao-remover-item" type="botao" data-remover-item="' + itemSacola.produtoId + '">Remover</button></div></article>';
+    }).join("") : '<div class="empty-cart">Sua sacola está esperando por coisas gostosas.<br>Escolha seus donuts favoritos no cardápio!</div>';
 
-    $("#total-sacola").textContent = money(cartData.total);
-    $$("[dadosResposta-alterar-quantidade]").forEach(button => button.addEventListener("click", () => {
-        const row = items.find(item => Number(item.produtoId) === Number(button.dataset.produtoId));
-        if (row) changeQuantity(Number(row.produtoId), Number(row.quantidade) + Number(button.dataset.alterarQuantidade));
+    buscarElemento("#total-sacola").textContent = formatarMoeda(dadosSacola.total);
+    buscarElementos("[data-alterar-quantidade]").forEach(botao => botao.addEventListener("click", () => {
+        const linhaSacola = itensSacola.find(itemSacola => Number(itemSacola.produtoId) === Number(botao.dataset.produtoId));
+        if (linhaSacola) alterarQuantidade(Number(linhaSacola.produtoId), Number(linhaSacola.quantidade) + Number(botao.dataset.alterarQuantidade));
     }));
-    $$("[dadosResposta-remover-itemSacola]").forEach(button => button.addEventListener("click", () => removeFromCart(Number(button.dataset.removerItem))));
+    buscarElementos("[data-remover-item]").forEach(botao => botao.addEventListener("click", () => removerDaSacola(Number(botao.dataset.removerItem))));
 }
 
-async function changeQuantity(productId, quantity) {
+async function alterarQuantidade(produtoId, quantidade) {
     try {
-        if (quantity <= 0) return removeFromCart(productId);
-        await apiRequest("/carrinho/" + currentUser.id + "/itens/" + productId, {
-            method: "PUT", body: { quantidade: quantity }
+        if (quantidade <= 0) return removerDaSacola(produtoId);
+        await requisitarApi("/carrinho/" + usuarioAtual.id + "/itens/" + produtoId, {
+            method: "PUT", body: { quantidade: quantidade }
         });
-        await loadCart();
-    } catch (error) { showToast(error.message); }
+        await carregarSacola();
+    } catch (erro) { mostrarAviso(erro.message); }
 }
 
-async function removeFromCart(productId) {
+async function removerDaSacola(produtoId) {
     try {
-        await apiRequest("/carrinho/" + currentUser.id + "/itens/" + productId, { method: "DELETE" });
-        await loadCart();
-        showToast("Item removido da sacola.");
-    } catch (error) { showToast(error.message); }
+        await requisitarApi("/carrinho/" + usuarioAtual.id + "/itens/" + produtoId, { method: "DELETE" });
+        await carregarSacola();
+        mostrarAviso("Item removido da sacola.");
+    } catch (erro) { mostrarAviso(erro.message); }
 }
 
-function openOverlay() {
-    overlay.classList.add("visible");
-    document.body.classList.add("no-scroll");
+function abrirFundo() {
+    fundoSobreposto.classList.add("visivel");
+    document.body.classList.add("sem-rolagem");
 }
 
-function closePanels() {
-    cartDrawer.classList.remove("aberto");
-    accountModal.classList.remove("aberto");
-    overlay.classList.remove("visible");
-    cartDrawer.setAttribute("aria-hidden", "true");
-    accountModal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("no-scroll");
+function fecharPaineis() {
+    painelSacola.classList.remove("aberto");
+    janelaConta.classList.remove("aberto");
+    fundoSobreposto.classList.remove("visivel");
+    painelSacola.setAttribute("aria-hidden", "true");
+    janelaConta.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("sem-rolagem");
 }
 
-function openCart() {
-    closePanels();
-    openOverlay();
-    cartDrawer.classList.add("aberto");
-    cartDrawer.setAttribute("aria-hidden", "false");
-    if (currentUser?.tipoConta === "Cliente") loadCart().catch(error => showToast(error.message));
+function abrirSacola() {
+    fecharPaineis();
+    abrirFundo();
+    painelSacola.classList.add("aberto");
+    painelSacola.setAttribute("aria-hidden", "false");
+    if (usuarioAtual?.tipoConta === "Cliente") carregarSacola().catch(erro => mostrarAviso(erro.message));
 }
 
-function openAccount() {
-    closePanels();
-    openOverlay();
-    accountModal.classList.add("aberto");
-    accountModal.setAttribute("aria-hidden", "false");
-    if (currentUser) renderAccountHome();
-    else showAuthForms();
+function abrirConta() {
+    fecharPaineis();
+    abrirFundo();
+    janelaConta.classList.add("aberto");
+    janelaConta.setAttribute("aria-hidden", "false");
+    if (usuarioAtual) mostrarInicioConta();
+    else mostrarFormulariosAcesso();
 }
 
-function showAuthMessage(message, type = "") {
-    authMessage.textContent = message;
-    authMessage.className = "feedback " + type;
+function mostrarMensagemAcesso(mensagemErro, tipoMensagem = "") {
+    mensagemAcesso.textContent = mensagemErro;
+    mensagemAcesso.className = "feedback " + tipoMensagem;
 }
 
-function showAuthForms(tab = "login") {
-    $("#janela-conta-title").textContent = tab === "login" ? "Entre na sua conta" : "Vamos criar sua conta?";
-    $("#conteudo-conta").innerHTML =
-        '<div class="abas-acesso"><button class="aba-acesso ' + (tab === "login" ? "active" : "") + '" data-aba-acesso="login" type="botao">Entrar</button>' +
-        '<button class="aba-acesso ' + (tab === "register" ? "active" : "") + '" data-aba-acesso="register" type="botao">Criar conta</button></div>' +
-        '<form id="formulario-acesso" class="formulario-empilhado ' + (tab === "register" ? "hidden" : "") + '">' +
+function mostrarFormulariosAcesso(aba = "login") {
+    buscarElemento("#janela-conta-title").textContent = aba === "login" ? "Entre na sua conta" : "Vamos criar sua conta?";
+    buscarElemento("#conteudo-conta").innerHTML =
+        '<div class="abas-acesso"><button class="aba-acesso ' + (aba === "login" ? "ativo" : "") + '" data-aba-acesso="login" type="botao">Entrar</button>' +
+        '<button class="aba-acesso ' + (aba === "register" ? "ativo" : "") + '" data-aba-acesso="register" type="botao">Criar conta</button></div>' +
+        '<form id="formulario-acesso" class="formulario-empilhado ' + (aba === "register" ? "oculto" : "") + '">' +
         '<label for="email-acesso">E-mail</label><input id="email-acesso" name="email" type="email" placeholder="voce@email.com" autocomplete="email" required>' +
         '<label for="senha-acesso">Senha</label><input id="senha-acesso" name="senha" type="password" placeholder="Sua senha" autocomplete="current-password" required>' +
         '<label for="tipo-acesso">Tipo de conta</label><select id="tipo-acesso" name="tipoConta"><option value="Cliente">Cliente</option><option value="Entregador">Entregador</option></select>' +
         '<button class="botao botao-principal" type="submit">Entrar</button></form>' +
-        '<form id="formulario-cadastro" class="formulario-empilhado ' + (tab === "login" ? "hidden" : "") + '">' +
-        '<label for="nome-cadastro">Seu nome</label><input id="nome-cadastro" name="nome" type="text" placeholder="Como podemos te chamar?" autocomplete="nomeProduto" required>' +
+        '<form id="formulario-cadastro" class="formulario-empilhado ' + (aba === "login" ? "oculto" : "") + '">' +
+        '<label for="nome-cadastro">Seu nome</label><input id="nome-cadastro" name="nome" type="text" placeholder="Como podemos te chamar?" autocomplete="name" required>' +
         '<label for="email-cadastro">E-mail</label><input id="email-cadastro" name="email" type="email" placeholder="voce@email.com" autocomplete="email" required>' +
         '<label for="senha-cadastro">Senha</label><input id="senha-cadastro" name="senha" type="password" placeholder="Crie uma senha" autocomplete="new-password" required>' +
         '<label for="tipo-cadastro">Tipo de conta</label><select id="tipo-cadastro" name="tipoConta"><option value="Cliente">Cliente</option><option value="Entregador">Entregador</option></select>' +
         '<button class="botao botao-principal" type="submit">Criar minha conta</button></form>';
-    showAuthMessage("");
-    $("#conteudo-conta").addEventListener("click", event => {
-        const tabButton = event.target.closest("[dadosResposta-aba-acesso]");
-        if (tabButton) showAuthForms(tabButton.dataset.abaAcesso);
+    mostrarMensagemAcesso("");
+    buscarElemento("#conteudo-conta").addEventListener("click", evento => {
+        const botaoAba = evento.target.closest("[data-aba-acesso]");
+        if (botaoAba) mostrarFormulariosAcesso(botaoAba.dataset.abaAcesso);
     });
-    $("#formulario-acesso").addEventListener("submit", handleLogin);
-    $("#formulario-cadastro").addEventListener("submit", handleRegister);
+    buscarElemento("#formulario-acesso").addEventListener("submit", realizarLogin);
+    buscarElemento("#formulario-cadastro").addEventListener("submit", realizarCadastro);
 }
 
-async function handleLogin(event) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const payload = {
-        email: String(form.get("email")).trim(),
-        senha: form.get("senha"),
-        tipoConta: form.get("tipoConta")
+async function realizarLogin(evento) {
+    evento.preventDefault();
+    const formulario = new FormData(evento.currentTarget);
+    const dadosEnvio = {
+        email: String(formulario.get("email")).trim(),
+        senha: formulario.get("senha"),
+        tipoConta: formulario.get("tipoConta")
     };
     try {
-        const result = await apiRequest("/usuario/login", { method: "POST", body: payload });
-        startSession(result.usuario);
-        showToast("Que bom ter você por aqui, " + result.usuario.nome.split(" ")[0] + "!");
-    } catch (error) { showAuthMessage(error.message, "erro"); }
+        const resultado = await requisitarApi("/usuario/login", { method: "POST", body: dadosEnvio });
+        iniciarSessao(resultado.usuario);
+        mostrarAviso("Que bom ter você por aqui, " + resultado.usuario.nome.split(" ")[0] + "!");
+    } catch (erro) { mostrarMensagemAcesso(erro.message, "erro"); }
 }
 
-async function handleRegister(event) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const payload = {
-        nome: String(form.get("nome")).trim(),
-        email: String(form.get("email")).trim(),
-        senha: form.get("senha"),
-        tipoConta: form.get("tipoConta")
+async function realizarCadastro(evento) {
+    evento.preventDefault();
+    const formulario = new FormData(evento.currentTarget);
+    const dadosEnvio = {
+        nome: String(formulario.get("nome")).trim(),
+        email: String(formulario.get("email")).trim(),
+        senha: formulario.get("senha"),
+        tipoConta: formulario.get("tipoConta")
     };
     try {
-        await apiRequest("/usuario", { method: "POST", body: payload });
-        showAuthForms("login");
-        $("#email-acesso").value = payload.email;
-        $("#tipo-acesso").value = payload.tipoConta;
-        showAuthMessage("Conta criada! Agora entre com seu e-mail e senha.", "success");
-    } catch (error) { showAuthMessage(error.message, "erro"); }
+        await requisitarApi("/usuario", { method: "POST", body: dadosEnvio });
+        mostrarFormulariosAcesso("login");
+        buscarElemento("#email-acesso").value = dadosEnvio.email;
+        buscarElemento("#tipo-acesso").value = dadosEnvio.tipoConta;
+        mostrarMensagemAcesso("Conta criada! Agora entre com seu e-mail e senha.", "sucesso");
+    } catch (erro) { mostrarMensagemAcesso(erro.message, "erro"); }
 }
 
-function startSession(user) {
-    currentUser = user;
-    $("#nome-conta").textContent = user.nome.split(" ")[0];
-    closePanels();
-    if (user.tipoConta === "Cliente") loadCart().catch(error => showToast(error.message));
+function iniciarSessao(usuario) {
+    usuarioAtual = usuario;
+    buscarElemento("#nome-conta").textContent = usuario.nome.split(" ")[0];
+    fecharPaineis();
+    if (usuario.tipoConta === "Cliente") carregarSacola().catch(erro => mostrarAviso(erro.message));
 }
 
-function endSession() {
-    currentUser = null;
-    cartData = { itens: [], total: 0 };
-    $("#nome-conta").textContent = "Entrar";
-    updateCartBadge();
-    showToast("Você saiu da sua conta.");
-    closePanels();
+function encerrarSessao() {
+    usuarioAtual = null;
+    dadosSacola = { itens: [], total: 0 };
+    buscarElemento("#nome-conta").textContent = "Entrar";
+    atualizarContadorSacola();
+    mostrarAviso("Você saiu da sua conta.");
+    fecharPaineis();
 }
 
-function renderAccountHome() {
-    const isCliente = currentUser.tipoConta === "Cliente";
-    $("#janela-conta-title").textContent = "Olá, " + currentUser.nome.split(" ")[0] + "!";
-    $("#conteudo-conta").innerHTML =
-        '<p class="boas-vindas-conta">' + (isCliente
+function mostrarInicioConta() {
+    const ehCliente = usuarioAtual.tipoConta === "Cliente";
+    buscarElemento("#janela-conta-title").textContent = "Olá, " + usuarioAtual.nome.split(" ")[0] + "!";
+    buscarElemento("#conteudo-conta").innerHTML =
+        '<p class="boas-vindas-conta">' + (ehCliente
             ? "Que bom ter você por aqui. Acompanhe seus pedidos ou continue escolhendo seus favoritos."
             : "Aqui estão os pedidos que precisam de acompanhamento.") + '</p>' +
         '<div class="acoes-conta"><button class="botao botao-principal" id="botao-pedidos-conta" type="botao">' +
-        (isCliente ? "Acompanhar meus pedidos" : "Ver pedidos para entrega") +
+        (ehCliente ? "Acompanhar meus pedidos" : "Ver pedidos para entrega") +
         '</button><button class="botao botao-contorno" id="botao-sair-conta" type="botao">Sair da conta</button></div>' +
         '<div id="lista-pedidos-conta"></div>';
-    $("#botao-pedidos-conta").addEventListener("click", loadAccountOrders);
-    $("#botao-sair-conta").addEventListener("click", endSession);
+    buscarElemento("#botao-pedidos-conta").addEventListener("click", carregarPedidosConta);
+    buscarElemento("#botao-sair-conta").addEventListener("click", encerrarSessao);
 }
 
-async function loadAccountOrders() {
-    const target = $("#botao-pedidos-conta-list");
-    target.innerHTML = '<p class="mensagem-retorno">Buscando seus pedidos...</p>';
+async function carregarPedidosConta() {
+    const alvo = buscarElemento("#botao-pedidos-conta-list");
+    alvo.innerHTML = '<p class="mensagem-retorno">Buscando seus pedidos...</p>';
     try {
-        const path = currentUser.tipoConta === "Cliente"
-            ? "/pedido/cliente/" + currentUser.id
-            : "/pedido/entregador/" + currentUser.id;
-        const orders = await apiRequest(path);
-        target.innerHTML = orders.length ? '<div class="lista-pedidos">' + orders.map(order => {
-            const items = (order.itens || []).map(item => item.quantidade + "x " + escapeHtml(item.nomeProduto)).join(", ");
-            const nextStatus = { Recebido: "EmPreparacao", EmPreparacao: "SaiuParaEntrega", SaiuParaEntrega: "Entregue" }[order.status];
-            const statusLabels = { EmPreparacao: "Iniciar preparação", SaiuParaEntrega: "Saiu para entrega", Entregue: "Marcar como entregue" };
-            const updateButton = currentUser.tipoConta === "Entregador" && nextStatus
-                ? '<button class="botao botao-contorno botao-atualizar-pedido" data-pedido-id="' + order.id + '" data-proxima-etapa="' + nextStatus + '" type="botao">' + statusLabels[nextStatus] + '</button>'
+        const rota = usuarioAtual.tipoConta === "Cliente"
+            ? "/pedido/cliente/" + usuarioAtual.id
+            : "/pedido/entregador/" + usuarioAtual.id;
+        const pedidos = await requisitarApi(rota);
+        alvo.innerHTML = pedidos.length ? '<div class="lista-pedidos">' + pedidos.map(pedido => {
+            const itensSacola = (pedido.itens || []).map(itemSacola => itemSacola.quantidade + "x " + escaparHtml(itemSacola.nomeProduto)).join(", ");
+            const proximaEtapa = { Recebido: "EmPreparacao", EmPreparacao: "SaiuParaEntrega", SaiuParaEntrega: "Entregue" }[pedido.status];
+            const nomesEtapas = { EmPreparacao: "Iniciar preparação", SaiuParaEntrega: "Saiu para entrega", Entregue: "Marcar como entregue" };
+            const botaoAtualizar = usuarioAtual.tipoConta === "Entregador" && proximaEtapa
+                ? '<button class="botao botao-contorno botao-atualizar-pedido" data-pedido-id="' + pedido.id + '" data-proxima-etapa="' + proximaEtapa + '" type="botao">' + nomesEtapas[proximaEtapa] + '</button>'
                 : "";
-            return '<article class="itemSacola-pedido"><div class="topo-itemSacola-pedido"><span>Pedido #' + order.id + '</span><span class="situacao-pedido">' + formatStatus(order.status) + '</span></div>' +
-                '<p>' + items + '<br>Total: <strong>' + money(order.total) + '</strong></p>' + updateButton + '</article>';
+            return '<article class="item-pedido"><div class="topo-item-pedido"><span>Pedido #' + pedido.id + '</span><span class="situacao-pedido">' + formatarSituacao(pedido.status) + '</span></div>' +
+                '<p>' + itensSacola + '<br>Total: <strong>' + formatarMoeda(pedido.total) + '</strong></p>' + botaoAtualizar + '</article>';
         }).join("") + '</div>' : '<p class="mensagem-retorno">Nenhum pedido encontrado por enquanto.</p>';
 
-        $$(".order-update-botao", target).forEach(button => button.addEventListener("click", async () => {
+        buscarElementos(".botao-atualizar-pedido", alvo).forEach(botao => botao.addEventListener("click", async () => {
             try {
-                await apiRequest("/pedido/" + button.dataset.pedidoId + "/etapaPedido", {
+                await requisitarApi("/pedido/" + botao.dataset.pedidoId + "/status", {
                     method: "PUT",
-                    body: { entregadorId: currentUser.id, status: button.dataset.proximaEtapa }
+                    body: { entregadorId: usuarioAtual.id, status: botao.dataset.proximaEtapa }
                 });
-                showToast("Etapa do pedido atualizada.");
-                loadAccountOrders();
-            } catch (error) { showToast(error.message); }
+                mostrarAviso("Etapa do pedido atualizada.");
+                carregarPedidosConta();
+            } catch (erro) { mostrarAviso(erro.message); }
         }));
-    } catch (error) {
-        target.innerHTML = '<p class="mensagem-retorno erro">' + escapeHtml(error.message) + '</p>';
+    } catch (erro) {
+        alvo.innerHTML = '<p class="mensagem-retorno erro">' + escaparHtml(erro.message) + '</p>';
     }
 }
 
-function formatStatus(status) {
+function formatarSituacao(etapaPedido) {
     return ({
         Recebido: "Recebido",
         EmPreparacao: "Em preparação",
         SaiuParaEntrega: "Saiu para entrega",
         Entregue: "Entregue"
-    })[status] || status;
+    })[etapaPedido] || etapaPedido;
 }
 
-async function checkout() {
-    if (!currentUser || currentUser.tipoConta !== "Cliente") {
-        closePanels();
-        openAccount();
-        showAuthMessage("Entre como cliente para finalizar seu pedido.");
+async function finalizarPedido() {
+    if (!usuarioAtual || usuarioAtual.tipoConta !== "Cliente") {
+        fecharPaineis();
+        abrirConta();
+        mostrarMensagemAcesso("Entre como cliente para finalizar seu pedido.");
         return;
     }
-    if (!(cartData.itens || []).length) {
-        showToast("Sua sacola ainda está vazia.");
+    if (!(dadosSacola.itens || []).length) {
+        mostrarAviso("Sua sacola ainda está vazia.");
         return;
     }
-    const button = $("#botao-finalizar-pedido");
-    button.disabled = true;
-    button.textContent = "Enviando pedido...";
+    const botao = buscarElemento("#botao-finalizar-pedido");
+    botao.disabled = true;
+    botao.textContent = "Enviando pedido...";
     try {
-        const order = await apiRequest("/pedido/" + currentUser.id, { method: "POST" });
-        await loadCart();
-        showToast("Pedido #" + order.id + " recebido! Obrigado pela preferência.");
-        closePanels();
-        openAccount();
-        loadAccountOrders();
-    } catch (error) {
-        showToast(error.message);
+        const pedido = await requisitarApi("/pedido/" + usuarioAtual.id, { method: "POST" });
+        await carregarSacola();
+        mostrarAviso("Pedido #" + pedido.id + " recebido! Obrigado pela preferência.");
+        fecharPaineis();
+        abrirConta();
+        carregarPedidosConta();
+    } catch (erro) {
+        mostrarAviso(erro.message);
     } finally {
-        button.disabled = false;
-        button.textContent = "Finalizar pedido";
+        botao.disabled = false;
+        botao.textContent = "Finalizar pedido";
     }
 }
 
-function setupRevealAnimations() {
-    const elements = $$(".reveal");
+function configurarAnimacoesEntrada() {
+    const elementos = buscarElementos(".animar-entrada");
     if (!("IntersectionObserver" in window)) {
-        elements.forEach(element => element.classList.add("is-visible"));
+        elementos.forEach(elemento => elemento.classList.add("is-visible"));
         return;
     }
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
+    const observador = new IntersectionObserver(entradas => {
+        entradas.forEach(produtoDaLista => {
+            if (produtoDaLista.isIntersecting) {
+                produtoDaLista.target.classList.add("is-visible");
+                observador.unobserve(produtoDaLista.target);
             }
         });
     }, { threshold: 0.12 });
-    elements.forEach(element => observer.observe(element));
+    elementos.forEach(elemento => observador.observe(elemento));
 }
 
-function setupEvents() {
-    $("#botao-conta").addEventListener("click", openAccount);
-    $("#botao-sacola").addEventListener("click", openCart);
-    $("#fechar-sacola").addEventListener("click", closePanels);
-    $("#fechar-conta").addEventListener("click", closePanels);
-    overlay.addEventListener("click", closePanels);
-    $("#botao-finalizar-pedido").addEventListener("click", checkout);
-    $("#botao-menu-celular").addEventListener("click", () => {
-        const button = $("#botao-menu-celular");
-        const open = button.getAttribute("aria-expanded") !== "true";
-        button.setAttribute("aria-expanded", String(open));
-        button.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
-        $("#navegacao-principal").classList.toggle("aberto", open);
+function configurarEventos() {
+    buscarElemento("#botao-conta").addEventListener("click", abrirConta);
+    buscarElemento("#botao-sacola").addEventListener("click", abrirSacola);
+    buscarElemento("#fechar-sacola").addEventListener("click", fecharPaineis);
+    buscarElemento("#fechar-conta").addEventListener("click", fecharPaineis);
+    fundoSobreposto.addEventListener("click", fecharPaineis);
+    buscarElemento("#botao-finalizar-pedido").addEventListener("click", finalizarPedido);
+    buscarElemento("#botao-menu-celular").addEventListener("click", () => {
+        const botao = buscarElemento("#botao-menu-celular");
+        const aberto = botao.getAttribute("aria-expanded") !== "true";
+        botao.setAttribute("aria-expanded", String(aberto));
+        botao.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+        buscarElemento("#navegacao-principal").classList.toggle("aberto", aberto);
     });
-    $$("#navegacao-principal a").forEach(link => link.addEventListener("click", () => {
-        $("#navegacao-principal").classList.remove("aberto");
-        $("#botao-menu-celular").setAttribute("aria-expanded", "false");
-        $("#botao-menu-celular").setAttribute("aria-label", "Abrir menu");
+    buscarElementos("#navegacao-principal a").forEach(linkNavegacao => linkNavegacao.addEventListener("click", () => {
+        buscarElemento("#navegacao-principal").classList.remove("aberto");
+        buscarElemento("#botao-menu-celular").setAttribute("aria-expanded", "false");
+        buscarElemento("#botao-menu-celular").setAttribute("aria-label", "Abrir menu");
     }));
-    $("#filtros-categorias").addEventListener("click", event => {
-        const button = event.target.closest("[dadosResposta-categoria]");
-        if (!button) return;
-        selectedCategory = button.dataset.categoria;
-        $$(".category-aba").forEach(tab => tab.classList.toggle("active", tab === button));
-        renderProducts();
+    buscarElemento("#filtros-categorias").addEventListener("click", evento => {
+        const botao = evento.target.closest("[data-categoria]");
+        if (!botao) return;
+        categoriaSelecionada = botao.dataset.categoria;
+        buscarElementos(".category-tab").forEach(aba => aba.classList.toggle("ativo", aba === botao));
+        mostrarProdutos();
     });
-    document.addEventListener("keydown", event => {
-        if (event.key === "Escape") closePanels();
+    document.addEventListener("keydown", evento => {
+        if (evento.key === "Escape") fecharPaineis();
     });
 }
 
-$("#ano-atual").textContent = new Date().getFullYear();
-setupEvents();
-setupRevealAnimations();
-loadProducts();
+buscarElemento("#ano-atual").textContent = new Date().getFullYear();
+configurarEventos();
+configurarAnimacoesEntrada();
+carregarProdutos();
