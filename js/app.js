@@ -233,11 +233,11 @@ function abrirConta() {
 
 function mostrarMensagemAcesso(mensagemErro, tipoMensagem = "") {
     mensagemAcesso.textContent = mensagemErro;
-    mensagemAcesso.className = "feedback " + tipoMensagem;
+    mensagemAcesso.className = "mensagem-retorno " + tipoMensagem;
 }
 
 function mostrarFormulariosAcesso(aba = "login") {
-    buscarElemento("#janela-conta-title").textContent = aba === "login" ? "Entre na sua conta" : "Vamos criar sua conta?";
+    buscarElemento("#titulo-janela-conta").textContent = aba === "login" ? "Entre na sua conta" : "Vamos criar sua conta?";
     buscarElemento("#conteudo-conta").innerHTML =
         '<div class="abas-acesso"><button class="aba-acesso ' + (aba === "login" ? "ativo" : "") + '" data-aba-acesso="login" type="button">Entrar</button>' +
         '<button class="aba-acesso ' + (aba === "register" ? "ativo" : "") + '" data-aba-acesso="register" type="button">Criar conta</button></div>' +
@@ -312,7 +312,7 @@ function encerrarSessao() {
 
 function mostrarInicioConta() {
     const ehCliente = usuarioAtual.tipoConta === "Cliente";
-    buscarElemento("#janela-conta-title").textContent = "Olá, " + usuarioAtual.nome.split(" ")[0] + "!";
+    buscarElemento("#titulo-janela-conta").textContent = "Olá, " + usuarioAtual.nome.split(" ")[0] + "!";
     buscarElemento("#conteudo-conta").innerHTML =
         '<p class="boas-vindas-conta">' + (ehCliente
             ? "Que bom ter você por aqui. Acompanhe seus pedidos ou continue escolhendo seus favoritos."
@@ -326,7 +326,7 @@ function mostrarInicioConta() {
 }
 
 async function carregarPedidosConta() {
-    const alvo = buscarElemento("#botao-pedidos-conta-list");
+    const alvo = buscarElemento("#lista-pedidos-conta");
     alvo.innerHTML = '<p class="mensagem-retorno">Buscando seus pedidos...</p>';
     try {
         const rota = usuarioAtual.tipoConta === "Cliente"
