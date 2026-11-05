@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#151515">
+  <meta name="description" content="Delivery App - pedidos e entregas">
+  <title>Delivery App</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Delivery App - início">
+      <span class="brand-mark">D</span>
+      <span>delivery<span class="brand-accent">.</span></span>
+    </a>
+    <div class="topbar-actions">
+      <span id="user-label" class="user-label"></span>
+      <button id="logout-button" class="button button-ghost hidden" type="button">Sair</button>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section id="auth-view" class="auth-layout">
+      <div class="intro-panel">
+        <span class="eyebrow">DELIVERY APP</span>
+        <h1>Seu pedido,<br><span>do seu jeito.</span></h1>
+        <p>Faça seus pedidos e acompanhe cada etapa da entrega em um só lugar.</p>
+        <div class="intro-note"><span class="status-dot"></span> Plataforma de pedidos</div>
+      </div>
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-auth-tab="login" type="button">Entrar</button>
+          <button class="auth-tab" data-auth-tab="register" type="button">Criar conta</button>
+        </div>
+        <form id="login-form" class="form-stack">
+          <div><label for="login-email">E-mail</label><input id="login-email" name="email" type="email" placeholder="voce@email.com" required></div>
+          <div><label for="login-password">Senha</label><input id="login-password" name="senha" type="password" placeholder="Sua senha" required></div>
+          <div><label for="login-type">Tipo de conta</label><select id="login-type" name="tipoConta" required><option value="Cliente">Cliente</option><option value="Entregador">Entregador</option></select></div>
+          <button class="button button-primary" type="submit">Entrar na plataforma</button>
+        </form>
+        <form id="register-form" class="form-stack hidden">
+          <div><label for="register-name">Nome</label><input id="register-name" name="nome" type="text" placeholder="Seu nome" required></div>
+          <div><label for="register-email">E-mail</label><input id="register-email" name="email" type="email" placeholder="voce@email.com" required></div>
+          <div><label for="register-password">Senha</label><input id="register-password" name="senha" type="password" placeholder="Crie uma senha" required></div>
+          <div><label for="register-type">Tipo de conta</label><select id="register-type" name="tipoConta" required><option value="Cliente">Cliente</option><option value="Entregador">Entregador</option></select></div>
+          <button class="button button-primary" type="submit">Criar minha conta</button>
+        </form>
+        <p id="auth-message" class="feedback" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="app-view" class="hidden">
+      <div class="welcome-row">
+        <div><span class="eyebrow" id="role-eyebrow">ÁREA DO CLIENTE</span><h1 id="welcome-title">Olá!</h1><p id="welcome-subtitle">O que vamos pedir hoje?</p></div>
+        <span id="role-pill" class="role-pill">Cliente</span>
+      </div>
+      <nav id="main-nav" class="main-nav" aria-label="Navegação principal"></nav>
+      <div id="app-message" class="feedback app-feedback" role="status" aria-live="polite"></div>
+      <div id="content" class="content-area"></div>
+    </section>
+  </main>
+  <footer class="footer">Delivery App <span>•</span> Projeto acadêmico</footer>
+</body>
+</html>
