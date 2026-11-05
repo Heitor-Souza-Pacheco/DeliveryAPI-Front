@@ -1,51 +1,51 @@
 # Donut Show - Loja de Donuts
 
-Interface de uma loja artesanal de donuts, desenvolvido com **HTML, CSS e JavaScript puro**, integrado à API ASP.NET Core do projeto [DeliveryAPI](https://github.com/Heitor-Souza-Pacheco/DeliveryAPI).
+Interface de uma loja artesanal de donuts, desenvolvida com **HTML, CSS e JavaScript puro** e integrada a uma API feita com ASP.NET Core.
 
 ## Identidade visual
 
-A interface usa como referência o banner e as fotografias presentes em `images/`, com uma paleta de creme, chocolate, caramelo e tons quentes. O layout é responsivo e prioriza uma apresentação acolhedora de loja artesanal.
+A página utiliza o banner e as fotografias da pasta `images/`. A paleta de cores combina tons de creme, chocolate e caramelo. O visual foi pensado para transmitir o cuidado de uma loja artesanal.
 
-## Tecnologias
+## Tecnologias utilizadas
 
-- HTML5 semântico
-- CSS3 (responsivo, animações leves e respeito a `prefers-reduced-motion`)
-- JavaScript moderno e Fetch API
-- API REST em ASP.NET Core
+- HTML5
+- CSS3
+- JavaScript
+- API REST com ASP.NET Core
 
-Não utiliza React, Tailwind, TypeScript ou bibliotecas de interface.
+O projeto não utiliza React, Tailwind, TypeScript ou bibliotecas de interface.
 
-## Estrutura
+## Estrutura de pastas
 
 ```text
 DeliveryAPI-Front/
 |-- index.html
 |-- css/
-|   `-- style.css
+|   |-- style.css
 |-- js/
-|   `-- app.js
+|   |-- app.js
 |-- images/
 |   |-- banner.jpg
 |   |-- donut1.jpg
 |   |-- donut2.jpg
 |   |-- donut3.jpg
 |   |-- donut4.jpg
-|   `-- donut5.jpg
-`-- README.md
+|   |-- donut5.jpg
+|-- README.md
 ```
 
 ## Como executar no computador
 
-1. Inicie a API DeliveryAPI na porta `http://localhost:5295`.
-2. Abra a pasta do frontend no VS Code.
-3. Inicie o `index.html` com Servidor local do VS Code.
-4. Acesse o endereço local exibido pela extensão.
+1. Inicie a API na porta `http://localhost:5295`.
+2. Abra a pasta do projeto no Visual Studio Code.
+3. Abra o arquivo `index.html) com a extensao Live Server.
+4. Acesse o endereco local mostrado pela extensao.
 
-A constante `API_URL` no início de `js/app.js` aponta para `http://localhost:5295/api`. Altere-a caso a API esteja em outra porta.
+A constante `API_URL`, no inicio de `js/app.js`, aponta para `http://localhost:5295/api`. Altere esse endereco caso a API esteja usando outra porta.
 
-## CORS
+## Configuracao de acesso entre a pagina e a API
 
-A API precisa permitir a origem usada pelo Servidor local do VS Code. No `Program.cs`, configure uma política CORS antes de `builder.Build()`:
+A API precisa permitir o acesso a partir do endereco usado pela extensao Live Server. No arquivo `Program.cs`, configure uma politica de CORS antes de `builder.Build()`:
 
 ```csharp
 builder.Services.AddCors(options =>
@@ -60,56 +60,56 @@ builder.Services.AddCors(options =>
 });
 ```
 
-Depois de `var app = builder.Build();` e antes de `app.MapControllers();`:
+Depois de `var app = builder.Build();` e antes de `app.MapControllers();`, adicione:
 
 ```csharp
 app.UseCors("FrontendPolicy");
 ```
 
-Se o Servidor local do VS Code usar outra porta, adicione a origem correspondente em `WithOrigins`.
+Se a extensao usar outra porta, inclua o novo endereco em `WithOrigins`.
 
 ## Recursos do projeto
 
 ### Loja
 - Banner principal da marca.
-- Seção de produtos em destaque e cardápio completo.
+- Produtos em destaque e cardapio completo.
 - Filtros por categoria.
-- Apresentação institucional, etapas de compra e área de depoimento.
-- Layout adaptado para celular, tablet e desktop.
+- Apresentacao da loja e explicacao de como fazer um pedido.
+- Pagina adaptada para celulares, tablets e computadores.
 
-### Área do cliente
-- Cadastro e login.
-- Catálogo carregado pela API.
-- Adição, alteração de quantidade e remoção de itens do carrinho.
-- Finalização do pedido.
-- Consulta do histórico e status dos pedidos.
+### Area do cliente
+- Cadastro e acesso a conta.
+- Consulta dos produtos pela API.
+- Adicao, alteracao de quantidade e remocao de produtos da sacola.
+- Finalizacao de pedidos.
+- Consulta dos pedidos e de suas etapas.
 
-### Área do entregador
-- Login com tipo de conta Entregador.
-- Consulta dos pedidos disponíveis.
-- Atualização do status: Recebido, Em preparação, Saiu para entrega e Entregue.
+### Area do entregador
+- Acesso com uma conta de entregador.
+- Consulta dos pedidos.
+- Atualizacao das etapas: Recebido, Em preparacao, Saiu para entrega e Entregue.
 
 ## Rotas utilizadas
 
-| Método | Endpoint | Uso |
+| Metodo | Rota | Finalidade |
 |---|---|---|
 | POST | `/api/usuario` | Cadastro |
-| POST | `/api/usuario/login` | Login |
-| GET | `/api/produto` | Catálogo |
-| GET | `/api/carrinho/{usuarioId}` | Consultar carrinho |
-| POST | `/api/carrinho/{usuarioId}/itens` | Adicionar item |
-| PUT | `/api/carrinho/{usuarioId}/itens/{produtoId}` | Alterar quantidade |
-| DELETE | `/api/carrinho/{usuarioId}/itens/{produtoId}` | Remover item |
-| POST | `/api/pedido/{clienteId}` | Criar pedido |
-| GET | `/api/pedido/cliente/{clienteId}` | Pedidos do cliente |
-| GET | `/api/pedido/entregador/{entregadorId}` | Pedidos do entregador |
-| PUT | `/api/pedido/{pedidoId}/status` | Atualizar status |
+| POST | `/api/usuario/login` | Acesso a conta |
+| GET | `/api/produto` | Listagem de produtos |
+| GET | `/api/carrinho/{usuarioId}` | Consulta da sacola |
+| POST | `/api/carrinho/{usuarioId}/itens` | Adicao de produto |
+| PUT | `/api/carrinho/{usuarioId}/itens/{produtoId}` | Alteracao de quantidade |
+| DELETE | `/api/carrinho/{usuarioId}/itens/{produtoId}` | Remocao de produto |
+| POST | `/api/pedido/{clienteId}` | Criacao de pedido |
+| GET | `/api/pedido/cliente/{clienteId}` | Consulta dos pedidos do cliente |
+| GET | `/api/pedido/entregador/{entregadorId}` | Consulta dos pedidos do entregador |
+| PUT | `/api/pedido/{pedidoId}/status` | Atualizacao da etapa do pedido |
 
-## Observações
+## Observacoes
 
-- O catálogo e os preços exibidos vêm da API. As imagens locais são associadas aos IDs dos produtos para apresentação visual.
-- A sessão fica em memória no navegador e termina ao atualizar a página.
-- O servidor acadêmico atual utiliza armazenamento temporário em memória; reiniciar a API pode apagar os dados.
-- O projeto ainda não implementa pagamento online, cálculo de frete ou autenticação por token.
-- O texto de depoimento é demonstrativo e deve ser substituído por avaliações reais antes de uso comercial.
-- Os dados de contato e horários no rodapé são exemplos e devem ser atualizados pela loja.
+- Os nomes e os precos dos produtos sao carregados pela API. As fotografias locais sao associadas aos identificadores dos produtos.
+- O acesso a conta fica guardado apenas enquanto a pagina esta aberta. Ao atualizar a pagina, sera necessario entrar novamente.
+- O servidor atual utiliza armazenamento temporario em memoria. Ao reiniciar a API, os dados podem ser apagados.
+- O projeto ainda nao possui pagamento pela internet, calculo de taxa de entrega ou autenticacao por token.
+- O depoimento apresentado e apenas um exemplo e deve ser substituido por uma avaliacao real.
+- Os dados de contato e os horarios apresentados sao exemplos e devem ser atualizados pela loja.
