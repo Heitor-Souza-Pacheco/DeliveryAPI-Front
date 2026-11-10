@@ -1,4 +1,4 @@
-const ENDERECO_API = "http://localhost:5295/api";
+const ENDERECO_API = "http://localhost:5000/api";
 const IMAGEM_POR_ID = { 1: "donut1.jpg", 2: "donut2.jpg", 3: "donut3.jpg", 4: "donut4.jpg", 5: "donut5.jpg" };
 const DESCRICAO_POR_ID = {
     1: "Cobertura delicada e confeitos coloridos para deixar o dia mais alegre.",
